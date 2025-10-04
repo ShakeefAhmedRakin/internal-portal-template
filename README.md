@@ -1,4 +1,4 @@
-# 🏢 Internal Portal Template
+# 🏢 Internal Portal Template ( WORK IN PROGRESS )
 
 A production-ready template for building **admin-controlled internal portals** and **B2B SaaS applications**. Perfect for enterprise tools, internal dashboards, client portals, and admin-managed user systems.
 
