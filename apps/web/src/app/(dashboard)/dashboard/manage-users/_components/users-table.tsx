@@ -23,9 +23,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Heading, Paragraph } from "@/components/ui/typography";
+import { Paragraph } from "@/components/ui/typography";
 import useUsersAdmin from "@/hooks/admin/useUsersAdmin";
-import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  MoreHorizontal,
+  Plus,
+  Search,
+} from "lucide-react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../../../../../components/ui/input-group";
 
 export default function UsersTable() {
   const {
@@ -49,11 +61,9 @@ export default function UsersTable() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Heading level="h5" className="font-semibold">
-            Users
-          </Heading>
-          <Skeleton className="h-6 w-8" />
+        <div className="flex items-center justify-between gap-2">
+          <Skeleton className="h-10 w-36" />
+          <Skeleton className="h-10 w-36" />
         </div>
 
         <div className="rounded-md border">
@@ -72,7 +82,7 @@ export default function UsersTable() {
               {Array.from({ length: limit }).map((_, index) => (
                 <TableRow
                   key={`loading-${index}`}
-                  className={index % 2 === 0 ? "bg-background" : "bg-muted"}
+                  className={index % 2 === 0 ? "bg-background" : "bg-card"}
                 >
                   <TableCell className="h-[47px] font-medium">
                     <Skeleton className="h-5 w-24" />
@@ -102,11 +112,7 @@ export default function UsersTable() {
         <div className="flex items-center justify-between gap-x-2">
           <Skeleton className="h-4 w-32" />
           <div className="flex items-center space-x-2">
-            <Skeleton className="h-8 w-8" />
-            <Skeleton className="h-8 w-8" />
-            <Skeleton className="h-8 w-16" />
-            <Skeleton className="h-8 w-8" />
-            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-36" />
           </div>
         </div>
       </div>
@@ -119,11 +125,23 @@ export default function UsersTable() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Heading level="h5" className="font-semibold">
-          Users
-        </Heading>
-        <Badge variant="default">{total}</Badge>
+      <div className="flex items-center justify-between gap-x-2">
+        <InputGroup className="w-fit">
+          <InputGroupAddon>
+            <Search className="h-4 w-4" />
+          </InputGroupAddon>
+          <InputGroupInput placeholder="Search" />
+        </InputGroup>
+        <ButtonGroup>
+          <Button variant="outline">
+            <Filter className="h-4 w-4" />
+            <span className="hidden md:flex">Filters</span>
+          </Button>
+          <Button variant="outline">
+            <Plus className="h-4 w-4" />
+            <span className="hidden md:flex">Add User</span>
+          </Button>
+        </ButtonGroup>
       </div>
 
       <div className="rounded-md border">
@@ -144,7 +162,7 @@ export default function UsersTable() {
                 {data.users.map((user, index) => (
                   <TableRow
                     key={user.id}
-                    className={index % 2 === 0 ? "bg-background" : "bg-muted"}
+                    className={index % 2 === 0 ? "bg-background" : "bg-card"}
                   >
                     <TableCell className="h-[47px] font-medium">
                       <TooltipProvider>
@@ -221,7 +239,7 @@ export default function UsersTable() {
                   return (
                     <TableRow
                       key={`empty-${index}`}
-                      className={`opacity-0 ${rowIndex % 2 === 0 ? "bg-background" : "bg-muted"}`}
+                      className={`opacity-100 ${rowIndex % 2 === 0 ? "bg-background" : "bg-card"}`}
                     >
                       <TableCell className="h-[47px] max-w-[180px] truncate font-medium">
                         -
@@ -234,7 +252,7 @@ export default function UsersTable() {
                       <TableCell className="h-[47px] max-w-[100px] truncate">
                         -
                       </TableCell>
-                      <TableCell className="h-[47px]">-</TableCell>
+                      <TableCell className="h-[47.95px]">-</TableCell>
                     </TableRow>
                   );
                 })}
@@ -245,7 +263,7 @@ export default function UsersTable() {
                 {Array.from({ length: limit }).map((_, index) => (
                   <TableRow
                     key={`empty-${index}`}
-                    className={`opacity-0 ${index % 2 === 0 ? "bg-background" : "bg-muted"}`}
+                    className={`opacity-0 ${index % 2 === 0 ? "bg-background" : "bg-card"}`}
                   >
                     <TableCell className="h-[47px] max-w-[180px] truncate font-medium">
                       -
