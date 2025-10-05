@@ -33,7 +33,13 @@ export default function UserTableColumnsDropdown({
     actions: boolean;
   }) => void;
 }) {
+  const protectedKeys: Array<keyof typeof visibleCols> = [
+    "name",
+    "actions",
+    "created",
+  ];
   const toggle = (key: keyof typeof visibleCols) => {
+    if (protectedKeys.includes(key)) return; // Name and Actions are always visible
     setVisibleCols({ ...visibleCols, [key]: !visibleCols[key] });
   };
 
@@ -45,13 +51,17 @@ export default function UserTableColumnsDropdown({
     label: string;
   }) => (
     <DropdownMenuItem
+      disabled={protectedKeys.includes(keyName)}
       onSelect={(e) => {
         e.preventDefault();
         toggle(keyName);
       }}
     >
       <div className="flex w-full items-center gap-2">
-        <Checkbox checked={visibleCols[keyName]} />
+        <Checkbox
+          checked={visibleCols[keyName]}
+          disabled={protectedKeys.includes(keyName)}
+        />
         <span className="capitalize">{label}</span>
       </div>
     </DropdownMenuItem>

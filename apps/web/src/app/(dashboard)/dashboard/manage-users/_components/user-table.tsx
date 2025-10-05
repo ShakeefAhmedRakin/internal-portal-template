@@ -20,7 +20,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Badge } from "../../../../../components/ui/badge";
 import { cn } from "../../../../../lib/utils";
 
-const cellHeight = 58.5;
+const rowHeight = "h-[58.5px]"; // enforce row height via Tailwind
 
 export default function UserTable({
   users,
@@ -41,6 +41,7 @@ export default function UserTable({
   };
 }) {
   const currentUserId = user.id;
+
   return (
     <div className="thin-styled-scroll-container h-full flex-1 overflow-x-auto overflow-y-auto rounded-md border">
       <Table className="table-fixed">
@@ -53,36 +54,38 @@ export default function UserTable({
           {visibleCols.actions && <col style={{ width: "50px" }} />}
         </colgroup>
         <TableHeader className="bg-muted sticky top-0">
-          <TableRow>
-            {visibleCols.name && <TableHead>Name</TableHead>}
-            {visibleCols.email && <TableHead>Email</TableHead>}
-            {visibleCols.role && <TableHead>Role</TableHead>}
-            {visibleCols.status && <TableHead>Status</TableHead>}
-            {visibleCols.created && <TableHead>Created</TableHead>}
+          <TableRow className={rowHeight}>
+            {visibleCols.name && (
+              <TableHead className="text-xs">Name</TableHead>
+            )}
+            {visibleCols.email && (
+              <TableHead className="text-xs">Email</TableHead>
+            )}
+            {visibleCols.role && (
+              <TableHead className="text-xs">Role</TableHead>
+            )}
+            {visibleCols.status && (
+              <TableHead className="text-xs">Status</TableHead>
+            )}
+            {visibleCols.created && (
+              <TableHead className="text-xs">Created</TableHead>
+            )}
             {visibleCols.actions && (
-              <TableHead>
-                <span className="ml-5.5">Actions</span>
-              </TableHead>
+              <TableHead className="text-center text-xs">Actions</TableHead>
             )}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
-            <TableRow className="even:bg-muted/50" key={user.id}>
+          {users.map((u) => (
+            <TableRow key={u.id} className={cn("even:bg-muted/50", rowHeight)}>
               {visibleCols.name && (
-                <TableCell
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                >
+                <TableCell>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="flex w-fit cursor-default items-center gap-1 truncate text-[11px] md:text-xs">
-                          {user.name}{" "}
-                          {user.id === currentUserId && (
+                          {u.name}{" "}
+                          {u.id === currentUserId && (
                             <Badge
                               variant="default"
                               className="text-[8px] font-bold uppercase"
@@ -93,191 +96,123 @@ export default function UserTable({
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>{user.name}</p>
+                        <p>{u.name}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
               )}
               {visibleCols.email && (
-                <TableCell
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                >
+                <TableCell>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="w-fit cursor-default truncate text-[11px] md:text-xs">
-                          {user.email}
+                          {u.email}
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>{user.email}</p>
+                        <p>{u.email}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
               )}
               {visibleCols.role && (
-                <TableCell
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                >
+                <TableCell>
                   <Badge
                     variant={
-                      user.role === USER_ROLES.ADMIN
+                      u.role === USER_ROLES.ADMIN
                         ? "destructive"
-                        : user.role === USER_ROLES.OPERATOR
+                        : u.role === USER_ROLES.OPERATOR
                           ? "default"
                           : "outline"
                     }
                     className="text-[10px] font-bold uppercase"
                   >
-                    {user.role || "user"}
+                    {u.role || "user"}
                   </Badge>
                 </TableCell>
               )}
               {visibleCols.status && (
-                <TableCell
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                  className="flex items-center gap-2"
-                >
+                <TableCell className="flex items-center gap-2">
                   <Badge
-                    variant={"outline"}
+                    variant="outline"
                     className={cn(
                       "text-[10px] font-bold uppercase",
-                      user.banned && "text-destructive"
+                      u.banned && "text-destructive"
                     )}
                   >
-                    {user.banned ? `Banned` : "Active"}
+                    {u.banned ? "Banned" : "Active"}
                   </Badge>
                 </TableCell>
               )}
               {visibleCols.created && (
-                <TableCell
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                >
-                  {new Date(user.createdAt).toLocaleString()}
+                <TableCell>
+                  {new Date(u.createdAt).toLocaleDateString()}
                 </TableCell>
               )}
               {visibleCols.actions && (
-                <TableCell
-                  className="flex items-center justify-end"
-                  style={{
-                    height: cellHeight,
-                    maxHeight: cellHeight,
-                    minHeight: cellHeight,
-                  }}
-                >
-                  <Button variant="outline" size={"icon-sm"}>
+                <TableCell className="flex items-center justify-center">
+                  <Button variant="outline" size="icon-sm">
                     <MoreHorizontal />
                   </Button>
                 </TableCell>
               )}
             </TableRow>
           ))}
-          {Array.from({
-            length: Math.max(0, limit - users.length),
-          }).map((_, index) => {
-            return (
-              <TableRow key={`empty-${index}`} className={"even:bg-muted/50"}>
+
+          {Array.from({ length: Math.max(0, limit - users.length) }).map(
+            (_, index) => (
+              <TableRow
+                key={`empty-${index}`}
+                className={cn("even:bg-muted/50", rowHeight)}
+              >
                 {visibleCols.name && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                  >
+                  <TableCell>
                     <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
                       -
                     </div>
                   </TableCell>
                 )}
                 {visibleCols.email && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                  >
+                  <TableCell>
                     <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
                       -
                     </div>
                   </TableCell>
                 )}
                 {visibleCols.role && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                  >
+                  <TableCell>
                     <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
                       -
                     </div>
                   </TableCell>
                 )}
                 {visibleCols.status && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                    className="flex items-center gap-2"
-                  >
+                  <TableCell className="flex items-center gap-2">
                     <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
                       -
                     </div>
                   </TableCell>
                 )}
                 {visibleCols.created && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                  >
+                  <TableCell>
                     <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
                       -
                     </div>
                   </TableCell>
                 )}
                 {visibleCols.actions && (
-                  <TableCell
-                    style={{
-                      height: cellHeight,
-                      maxHeight: cellHeight,
-                      minHeight: cellHeight,
-                    }}
-                    className="flex items-center justify-end"
-                  >
-                    <Button variant="outline" size={"icon-sm"} disabled>
+                  <TableCell className="flex items-center justify-center">
+                    <Button variant="outline" size="icon-sm" disabled>
                       <MoreHorizontal />
                     </Button>
                   </TableCell>
                 )}
               </TableRow>
-            );
-          })}
+            )
+          )}
         </TableBody>
       </Table>
     </div>
