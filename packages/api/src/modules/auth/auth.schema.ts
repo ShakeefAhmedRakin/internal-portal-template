@@ -1,4 +1,5 @@
-import { pgTable, text, timestamp, boolean, serial } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { USER_ROLES } from "./auth.constants";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -6,7 +7,9 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull(),
   image: text("image"),
-  role: text("role").notNull(),
+  role: text("role", {
+    enum: [USER_ROLES.OPERATOR, USER_ROLES.ADMIN, USER_ROLES.VISITOR],
+  }).notNull(),
   banned: boolean("banned"),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),

@@ -15,6 +15,13 @@
       "when": 1759608655915,
       "tag": "0001_public_maverick",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1759629764942,
+      "tag": "0002_amusing_caretaker",
+      "breakpoints": true
     }
   ]
 }
