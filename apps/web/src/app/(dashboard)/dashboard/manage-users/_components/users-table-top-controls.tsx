@@ -5,10 +5,11 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Columns, Plus, Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Spinner } from "../../../../../components/ui/spinner";
 import { cn } from "../../../../../lib/utils";
+import UserTableColumnsDropdown from "./user-table-columns-dropdown";
 import UserTableFilterDropdown from "./user-table-filter-dropdown";
 
 export default function UsersTableTopControls({
@@ -19,6 +20,8 @@ export default function UsersTableTopControls({
   setFilteredField,
   filteredValue,
   setFilteredValue,
+  visibleCols,
+  setVisibleCols,
 }: {
   isLoading: boolean;
   searchValue: string;
@@ -27,6 +30,22 @@ export default function UsersTableTopControls({
   setFilteredField: (value: "role" | "banned" | undefined) => void;
   filteredValue: string | boolean | undefined;
   setFilteredValue: (value: string | boolean | undefined) => void;
+  visibleCols: {
+    name: boolean;
+    email: boolean;
+    role: boolean;
+    status: boolean;
+    created: boolean;
+    actions: boolean;
+  };
+  setVisibleCols: (v: {
+    name: boolean;
+    email: boolean;
+    role: boolean;
+    status: boolean;
+    created: boolean;
+    actions: boolean;
+  }) => void;
 }) {
   const [localValue, setLocalValue] = useState(searchValue);
   const debounceMs = 300;
@@ -66,10 +85,11 @@ export default function UsersTableTopControls({
           <Plus className="h-4 w-4" />
           <span className="hidden md:flex">Add User</span>
         </Button>
-        <Button variant="outline" disabled={isLoading}>
-          <Columns className="h-4 w-4" />
-          <span className="hidden md:flex">Columns</span>
-        </Button>
+        <UserTableColumnsDropdown
+          isLoading={isLoading}
+          visibleCols={visibleCols}
+          setVisibleCols={setVisibleCols}
+        />
         <UserTableFilterDropdown
           isLoading={isLoading}
           filteredField={filteredField}

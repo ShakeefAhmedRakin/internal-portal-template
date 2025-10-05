@@ -2,6 +2,7 @@
 
 import useUsersAdmin from "@/hooks/admin/useUsersAdmin";
 import type { User } from "better-auth";
+import { useState } from "react";
 import UserTable from "./user-table";
 import UsersTableBottomControls from "./users-table-bottom-controls";
 import UsersTableTopControls from "./users-table-top-controls";
@@ -29,6 +30,16 @@ export default function UsersTableContainer({ user }: { user: User }) {
     setFilteredValue,
   } = useUsersAdmin(10);
 
+  // client-side column visibility state
+  const [visibleCols, setVisibleCols] = useState({
+    name: true,
+    email: true,
+    role: true,
+    status: true,
+    created: true,
+    actions: true,
+  });
+
   return (
     <div className="flex h-full max-h-full flex-col space-y-4">
       <UsersTableTopControls
@@ -39,9 +50,16 @@ export default function UsersTableContainer({ user }: { user: User }) {
         setFilteredField={setFilteredField}
         filteredValue={filteredValue}
         setFilteredValue={setFilteredValue}
+        visibleCols={visibleCols}
+        setVisibleCols={setVisibleCols}
       />
 
-      <UserTable users={data?.users || []} limit={limit} user={user} />
+      <UserTable
+        users={data?.users || []}
+        limit={limit}
+        user={user}
+        visibleCols={visibleCols}
+      />
 
       <UsersTableBottomControls
         offset={offset}
