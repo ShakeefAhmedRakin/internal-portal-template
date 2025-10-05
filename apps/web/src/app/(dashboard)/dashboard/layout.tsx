@@ -1,6 +1,6 @@
 import { StaticRoutes } from "@/config/static-routes";
 import { redirect } from "next/navigation";
-import { useAuthServer } from "../../../hooks/useAuthServer";
+import { useAuthServer } from "../../../hooks/auth/useAuthServer";
 import DashboardNavigation from "../_components/dashboard-navigation";
 
 export default async function DashboardLayout({

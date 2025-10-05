@@ -5,7 +5,7 @@ import { USER_ROLES, type UserRole } from "api/src/modules/auth/auth.constants";
 import { authService } from "api/src/modules/auth/auth.service";
 import type { User } from "better-auth";
 import { headers } from "next/headers";
-import { StaticRoutes } from "../config/static-routes";
+import { StaticRoutes } from "../../config/static-routes";
 
 // Server-side session utilities
 export async function getServerSession() {
