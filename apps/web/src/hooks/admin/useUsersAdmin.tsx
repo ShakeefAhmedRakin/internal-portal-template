@@ -1,6 +1,6 @@
 import { orpc } from "@/utils/orpc";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type UsersAdminData = Awaited<
   ReturnType<ReturnType<typeof orpc.admin.getUsers.queryOptions>["queryFn"]>
@@ -19,6 +19,11 @@ export default function useUsersAdmin(initialLimit = 10) {
     string | boolean | undefined
   >(undefined);
   const offset = (currentPage - 1) * limit;
+
+  // Reset to page 1 when search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchValue, filteredField, filteredValue]);
 
   const options = orpc.admin.getUsers.queryOptions({
     input: {
