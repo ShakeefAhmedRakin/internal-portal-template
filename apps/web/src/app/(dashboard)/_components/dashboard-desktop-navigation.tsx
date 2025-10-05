@@ -1,19 +1,22 @@
 import SignOutButton from "@/app/(dashboard)/_components/sign-out-button";
 import { AppLogo } from "@/components/branding/app-logo";
 import { Separator } from "@/components/ui/separator";
+import { type UserRole } from "api/src/modules/auth/auth.constants";
 import type { User } from "better-auth";
 import { ThemeToggleButton } from "../../../components/theme-toggle";
 import { Card, CardContent, CardFooter } from "../../../components/ui/card";
+import { getRoutesForRole } from "../../../config/route-helpers";
 import DashboardNavigationItem from "./dashboard-navigation-item";
-import { DashboardRoutes } from "./dashboard-routes";
 import DashboardUserCard from "./dashboard-user-card";
 
 const SIDEBAR_WIDTH = "17rem";
 
 export default function DashboardDesktopNavigation({
   user,
+  userRole,
 }: {
   user: User | null;
+  userRole: UserRole | null;
 }) {
   return (
     <div
@@ -28,7 +31,7 @@ export default function DashboardDesktopNavigation({
       <Separator />
 
       <ul className="flex w-full flex-col gap-2">
-        {DashboardRoutes.map((route) => (
+        {getRoutesForRole(userRole).map((route) => (
           <DashboardNavigationItem key={route.title} {...route} />
         ))}
       </ul>

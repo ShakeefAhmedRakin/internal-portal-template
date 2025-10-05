@@ -12,15 +12,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import type { UserRole } from "api/src/modules/auth/auth.constants";
 import type { User } from "better-auth";
 import { Menu, X } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../../../components/ui/card";
+import { getRoutesForRole } from "../../../config/route-helpers";
 import DashboardNavigationItem from "./dashboard-navigation-item";
-import { DashboardRoutes } from "./dashboard-routes";
 import DashboardUserCard from "./dashboard-user-card";
 import SignOutButton from "./sign-out-button";
 
-export function DashboardMobileNavigation({ user }: { user: User | null }) {
+export function DashboardMobileNavigation({
+  user,
+  userRole,
+}: {
+  user: User | null;
+  userRole: UserRole | null;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -46,9 +53,8 @@ export function DashboardMobileNavigation({ user }: { user: User | null }) {
         </SheetHeader>
 
         <Separator />
-
         <ul className="flex w-full flex-col gap-2">
-          {DashboardRoutes.map((route) => (
+          {getRoutesForRole(userRole).map((route) => (
             <DashboardNavigationItem
               key={route.title}
               {...route}
@@ -56,7 +62,6 @@ export function DashboardMobileNavigation({ user }: { user: User | null }) {
             />
           ))}
         </ul>
-
         {/* BOTTOM  */}
         <div className="flex w-full flex-1 items-end">
           {user && (

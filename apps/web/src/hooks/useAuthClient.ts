@@ -1,6 +1,10 @@
 "use client";
 
-import { USER_ROLES, type UserRole } from "api/src/modules/auth/auth.constants";
+import {
+  ROLE_HIERARCHY,
+  USER_ROLES,
+  type UserRole,
+} from "api/src/modules/auth/auth.constants";
 import { authClient } from "../lib/auth-client";
 
 // Client-side auth hook - use in Client Components
@@ -60,14 +64,8 @@ export function useHasMinimumRole(minRole: UserRole) {
   const hasMinimumRole = () => {
     if (!auth.user?.role) return false;
 
-    const roleHierarchy = {
-      [USER_ROLES.VISITOR]: 0,
-      [USER_ROLES.OPERATOR]: 1,
-      [USER_ROLES.ADMIN]: 2,
-    };
-
-    const userRoleLevel = roleHierarchy[auth.user.role as UserRole];
-    const minRoleLevel = roleHierarchy[minRole];
+    const userRoleLevel = ROLE_HIERARCHY[auth.user.role as UserRole];
+    const minRoleLevel = ROLE_HIERARCHY[minRole];
 
     return userRoleLevel >= minRoleLevel;
   };
