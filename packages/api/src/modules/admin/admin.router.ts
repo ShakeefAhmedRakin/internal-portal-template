@@ -35,10 +35,12 @@ export const adminRouter = {
           limit: input.limit ?? 10,
           offset: input.offset ?? 0,
           searchValue: input.searchValue ?? "",
+          searchField: "name",
+          searchOperator: "contains",
         },
       });
 
       return { users: data.users, total: data.total };
     }),
 };
-export type AppRouter = typeof adminRouter;
+export type AdminRouter = typeof adminRouter;

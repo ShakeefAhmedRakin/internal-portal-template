@@ -8,7 +8,6 @@ import { ButtonGroupText } from "@/components/ui/button-group";
 import { ButtonGroup } from "@/components/ui/button-group";
 
 import { Paragraph } from "@/components/ui/typography";
-import { type UsersTableBottomControlsProps } from "@/hooks/admin/useUsersAdmin";
 import { Skeleton } from "../../../../../components/ui/skeleton";
 import { Spinner } from "../../../../../components/ui/spinner";
 
@@ -23,9 +22,18 @@ export default function UsersTableBottomControls({
   currentPage,
   prevPage,
   nextPage,
-  searchValue,
-  setSearchValue,
-}: UsersTableBottomControlsProps) {
+}: {
+  offset: number;
+  limit: number;
+  total: number;
+  isLoading: boolean;
+  totalPages: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  currentPage: number;
+  prevPage: () => void;
+  nextPage: () => void;
+}) {
   return (
     <div className="flex items-center justify-between gap-x-2">
       {isLoading ? (

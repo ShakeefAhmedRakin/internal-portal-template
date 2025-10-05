@@ -46,8 +46,6 @@ export default function UsersTableContainer({ user }: { user: User }) {
         prevPage={prevPage}
         nextPage={nextPage}
         isLoading={isLoading}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
       />
     </div>
   );

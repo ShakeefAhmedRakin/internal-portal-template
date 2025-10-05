@@ -2,21 +2,6 @@ import { orpc } from "@/utils/orpc";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export interface UsersTableBottomControlsProps {
-  offset: number;
-  limit: number;
-  total: number;
-  isLoading: boolean;
-  totalPages: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  currentPage: number;
-  prevPage: () => void;
-  nextPage: () => void;
-  searchValue: string;
-  setSearchValue: (value: string) => void;
-}
-
 type UsersAdminData = Awaited<
   ReturnType<ReturnType<typeof orpc.admin.getUsers.queryOptions>["queryFn"]>
 >;
