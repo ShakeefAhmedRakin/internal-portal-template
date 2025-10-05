@@ -16,11 +16,11 @@ import {
 import type { UsersAdminUserType } from "@/hooks/admin/useUsersAdmin";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
 import type { User } from "better-auth";
-import { MoreHorizontal } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { Badge } from "../../../../../components/ui/badge";
 import { cn } from "../../../../../lib/utils";
 
-const rowHeight = "h-[58.5px]"; // enforce row height via Tailwind
+const rowHeight = "h-[63.5px]"; // enforce row height via Tailwind
 
 export default function UserTable({
   users,
@@ -51,10 +51,10 @@ export default function UserTable({
           {visibleCols.role && <col style={{ width: "100px" }} />}
           {visibleCols.status && <col style={{ width: "100px" }} />}
           {visibleCols.created && <col style={{ width: "200px" }} />}
-          {visibleCols.actions && <col style={{ width: "50px" }} />}
+          {visibleCols.actions && <col style={{ width: "60px" }} />}
         </colgroup>
         <TableHeader className="bg-muted sticky top-0">
-          <TableRow className={rowHeight}>
+          <TableRow>
             {visibleCols.name && (
               <TableHead className="text-xs">Name</TableHead>
             )}
@@ -135,7 +135,7 @@ export default function UserTable({
                 </TableCell>
               )}
               {visibleCols.status && (
-                <TableCell className="flex items-center gap-2">
+                <TableCell>
                   <Badge
                     variant="outline"
                     className={cn(
@@ -154,8 +154,8 @@ export default function UserTable({
               )}
               {visibleCols.actions && (
                 <TableCell className="flex items-center justify-center">
-                  <Button variant="outline" size="icon-sm">
-                    <MoreHorizontal />
+                  <Button variant="ghost" size="icon-sm">
+                    <MoreVertical className="size-4.5" />
                   </Button>
                 </TableCell>
               )}
@@ -205,8 +205,8 @@ export default function UserTable({
                 )}
                 {visibleCols.actions && (
                   <TableCell className="flex items-center justify-center">
-                    <Button variant="outline" size="icon-sm" disabled>
-                      <MoreHorizontal />
+                    <Button variant="ghost" size="icon-sm" disabled>
+                      <MoreVertical className="size-4.5" />
                     </Button>
                   </TableCell>
                 )}
