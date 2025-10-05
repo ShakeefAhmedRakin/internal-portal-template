@@ -14,7 +14,7 @@ export default function PageHeader({
   titleFirst?: boolean;
 }) {
   return (
-    <div className="mb-2 flex flex-col gap-1">
+    <div className="mb-4 flex flex-col gap-1">
       {showBreadcrumb && <Breadcrumbs showHome={false} />}
       {titleFirst ? (
         <>
