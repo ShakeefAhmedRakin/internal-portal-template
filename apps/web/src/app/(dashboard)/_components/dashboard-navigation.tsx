@@ -15,7 +15,7 @@ export default function DashboardNavigation({
 }) {
   return (
     <nav>
-      <div className="bg-background/50 flex items-center justify-between border-b p-3 backdrop-blur-lg lg:hidden">
+      <div className="bg-background/50 flex items-center justify-between border-b p-3 backdrop-blur-lg xl:hidden">
         <AppLogo />
 
         <span>
@@ -24,7 +24,7 @@ export default function DashboardNavigation({
         </span>
       </div>
 
-      <div className="hidden h-full lg:block">
+      <div className="hidden h-full xl:block">
         <DashboardDesktopNavigation user={user} userRole={userRole} />
       </div>
     </nav>

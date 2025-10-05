@@ -15,8 +15,8 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="dark:lg:bg-card/20 lg:bg-card/20 relative h-screen max-h-screen w-screen max-w-screen overflow-hidden pb-[70px] lg:pb-0">
-      <div className="fade-in-from-bottom relative z-10 flex h-full flex-1 flex-col gap-2 p-2 lg:flex-row">
+    <div className="dark:xl:bg-card/20 xl:bg-card/20 relative h-screen max-h-screen w-screen max-w-screen overflow-hidden pb-[70px] xl:pb-0">
+      <div className="fade-in-from-bottom relative z-10 flex h-full flex-1 flex-col gap-2 p-2 xl:flex-row">
         <DashboardNavigation user={auth.user} userRole={auth.userRole} />
         <main className="flex h-full max-h-full flex-1">{children}</main>
       </div>

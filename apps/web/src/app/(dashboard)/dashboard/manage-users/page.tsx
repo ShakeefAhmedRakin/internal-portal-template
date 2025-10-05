@@ -2,18 +2,21 @@ import { hasMinimumRole } from "@/hooks/auth/useAuthServer";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
 import PageLayout from "../../../../components/ui/page-layout";
 import UnauthorizedCard from "../../../../components/unauthorized-card";
+import { useAuthServer } from "../../../../hooks/auth/useAuthServer";
+import UsersTableContainer from "./_components/users-table-container";
 
 export default async function ManageUsersPage() {
   const allowedAccess = await hasMinimumRole(USER_ROLES.ADMIN);
+  const { user } = await useAuthServer();
 
-  if (!allowedAccess) {
+  if (!allowedAccess || !user) {
     return <UnauthorizedCard />;
   }
 
   return (
-    <PageLayout title="Manage Users" description="Manage your users">
-      <div className="h-[6000px] bg-gray-100">
-        <h1>2</h1>
+    <PageLayout title="Manage Users" description="Manage your users" contained>
+      <div className="h-full max-h-full">
+        <UsersTableContainer user={user} />
       </div>
     </PageLayout>
   );

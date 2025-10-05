@@ -2,19 +2,40 @@ import { orpc } from "@/utils/orpc";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
+export interface UsersTableBottomControlsProps {
+  offset: number;
+  limit: number;
+  total: number;
+  isLoading: boolean;
+  totalPages: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  currentPage: number;
+  prevPage: () => void;
+  nextPage: () => void;
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+}
+
+type UsersAdminData = Awaited<
+  ReturnType<ReturnType<typeof orpc.admin.getUsers.queryOptions>["queryFn"]>
+>;
+
+export type UsersAdminUserType = UsersAdminData["users"][number];
+
 export default function useUsersAdmin(initialLimit = 10) {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(initialLimit);
-
+  const [searchValue, setSearchValue] = useState("");
   const offset = (currentPage - 1) * limit;
 
   const options = orpc.admin.getUsers.queryOptions({
-    input: { limit, offset },
+    input: { limit, offset, searchValue },
   });
 
   const query = useQuery({
     ...options,
-    queryKey: ["admin", "users", { limit, offset }],
+    queryKey: ["admin", "users", { limit, offset, searchValue }],
     enabled: !!limit && offset >= 0,
   });
 
@@ -53,6 +74,8 @@ export default function useUsersAdmin(initialLimit = 10) {
     currentPage,
     limit,
     offset,
+    searchValue,
+    setSearchValue,
     total,
     totalPages,
     hasNextPage,

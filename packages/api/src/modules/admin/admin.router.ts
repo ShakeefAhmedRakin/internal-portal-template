@@ -12,6 +12,7 @@ export const adminRouter = {
       z.object({
         limit: z.number().optional(),
         offset: z.number().optional(),
+        searchValue: z.string().optional(),
       })
     )
     .handler(async ({ context, input }) => {
@@ -33,6 +34,7 @@ export const adminRouter = {
         query: {
           limit: input.limit ?? 10,
           offset: input.offset ?? 0,
+          searchValue: input.searchValue ?? "",
         },
       });
 

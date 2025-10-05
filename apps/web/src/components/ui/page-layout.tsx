@@ -1,4 +1,5 @@
 import PageHeader from "../../app/(dashboard)/dashboard/_components/page-header";
+import { cn } from "../../lib/utils";
 
 export default function PageLayout({
   children,
@@ -7,6 +8,7 @@ export default function PageLayout({
   description,
   showBreadcrumb = true,
   titleFirst = true,
+  contained = false,
 }: {
   children: React.ReactNode;
   showHeader?: boolean;
@@ -14,9 +16,10 @@ export default function PageLayout({
   description?: string;
   showBreadcrumb?: boolean;
   titleFirst?: boolean;
+  contained?: boolean;
 }) {
   return (
-    <div className="lg:bg-background thin-styled-scroll-container flex h-full w-full flex-1 flex-col p-2 md:p-4 lg:rounded-lg lg:border">
+    <div className="lg:bg-background thin-styled-scroll-container flex h-full w-full flex-1 flex-col p-2 xl:rounded-lg xl:border xl:p-4">
       {showHeader && (
         <PageHeader
           title={title}
@@ -25,7 +28,14 @@ export default function PageLayout({
           titleFirst={titleFirst}
         />
       )}
-      <div className="max-h-full flex-1 overflow-y-auto">{children}</div>
+      <div
+        className={cn(
+          "h-full max-h-full flex-1",
+          !contained ? "overflow-y-auto" : "overflow-y-hidden"
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
