@@ -139,22 +139,32 @@ export default function UserTable({
             return (
               <TableRow key={`empty-${index}`} className={"even:bg-muted/50"}>
                 <TableCell style={{ height: cellHeight }}>
-                  <div className="text-[11px] md:text-xs">-</div>
+                  <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
+                    -
+                  </div>
                 </TableCell>
                 <TableCell style={{ height: cellHeight }}>
-                  <div className="text-[11px] md:text-xs">-</div>
+                  <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
+                    -
+                  </div>
                 </TableCell>
                 <TableCell style={{ height: cellHeight }}>
-                  <div className="text-[11px] md:text-xs">-</div>
+                  <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
+                    -
+                  </div>
                 </TableCell>
                 <TableCell
                   style={{ height: cellHeight }}
                   className="flex items-center gap-2"
                 >
-                  <div className="text-[11px] md:text-xs">-</div>
+                  <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
+                    -
+                  </div>
                 </TableCell>
                 <TableCell style={{ height: cellHeight }}>
-                  <div className="text-[11px] md:text-xs">-</div>
+                  <div className="text-muted-foreground pl-2 text-[11px] md:text-xs">
+                    -
+                  </div>
                 </TableCell>
                 <TableCell
                   style={{ height: cellHeight }}

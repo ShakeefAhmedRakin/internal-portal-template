@@ -13,6 +13,8 @@ export const adminRouter = {
         limit: z.number().optional(),
         offset: z.number().optional(),
         searchValue: z.string().optional(),
+        filterField: z.string().optional(),
+        filterValue: z.union([z.string(), z.boolean()]).optional(),
       })
     )
     .handler(async ({ context, input }) => {
@@ -37,6 +39,13 @@ export const adminRouter = {
           searchValue: input.searchValue ?? "",
           searchField: "name",
           searchOperator: "contains",
+          filterField: input.filterField ?? "",
+          filterOperator: "eq",
+          // Coerce boolean to string for upstream API compatibility
+          filterValue:
+            typeof input.filterValue === "boolean"
+              ? String(input.filterValue)
+              : (input.filterValue ?? ""),
         },
       });
 

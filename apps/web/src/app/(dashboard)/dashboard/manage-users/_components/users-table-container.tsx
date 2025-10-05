@@ -23,6 +23,10 @@ export default function UsersTableContainer({ user }: { user: User }) {
     prevPage,
     searchValue,
     setSearchValue,
+    filteredField,
+    setFilteredField,
+    filteredValue,
+    setFilteredValue,
   } = useUsersAdmin(10);
 
   return (
@@ -31,6 +35,10 @@ export default function UsersTableContainer({ user }: { user: User }) {
         isLoading={isLoading}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
+        filteredField={filteredField}
+        setFilteredField={setFilteredField}
+        filteredValue={filteredValue}
+        setFilteredValue={setFilteredValue}
       />
 
       <UserTable users={data?.users || []} limit={limit} user={user} />

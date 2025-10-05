@@ -1,8 +1,7 @@
-import { hasMinimumRole } from "@/hooks/auth/useAuthServer";
+import PageLayout from "@/components/ui/page-layout";
+import UnauthorizedCard from "@/components/unauthorized-card";
+import { hasMinimumRole, useAuthServer } from "@/hooks/auth/useAuthServer";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
-import PageLayout from "../../../../components/ui/page-layout";
-import UnauthorizedCard from "../../../../components/unauthorized-card";
-import { useAuthServer } from "../../../../hooks/auth/useAuthServer";
 import UsersTableContainer from "./_components/users-table-container";
 
 export default async function ManageUsersPage() {

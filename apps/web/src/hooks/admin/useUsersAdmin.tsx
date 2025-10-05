@@ -12,15 +12,38 @@ export default function useUsersAdmin(initialLimit = 10) {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(initialLimit);
   const [searchValue, setSearchValue] = useState("");
+  const [filteredField, setFilteredField] = useState<
+    "role" | "banned" | undefined
+  >(undefined);
+  const [filteredValue, setFilteredValue] = useState<
+    string | boolean | undefined
+  >(undefined);
   const offset = (currentPage - 1) * limit;
 
   const options = orpc.admin.getUsers.queryOptions({
-    input: { limit, offset, searchValue },
+    input: {
+      limit,
+      offset,
+      searchValue,
+      // map local state to API param names
+      filterField: filteredField,
+      filterValue: filteredValue,
+    },
   });
 
   const query = useQuery({
     ...options,
-    queryKey: ["admin", "users", { limit, offset, searchValue }],
+    queryKey: [
+      "admin",
+      "users",
+      {
+        limit,
+        offset,
+        searchValue,
+        filterField: filteredField,
+        filterValue: filteredValue,
+      },
+    ],
     enabled: !!limit && offset >= 0,
   });
 
@@ -61,6 +84,10 @@ export default function useUsersAdmin(initialLimit = 10) {
     offset,
     searchValue,
     setSearchValue,
+    filteredField,
+    setFilteredField,
+    filteredValue,
+    setFilteredValue,
     total,
     totalPages,
     hasNextPage,
