@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/item";
 import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
+import { USER_ROLES } from "api/src/modules/auth/auth.constants";
 import { AlertCircleIcon, CopyIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -114,7 +115,18 @@ export default function UserTableDeleteDialog({
           <ItemContent>
             <div className="flex w-full items-center gap-2">
               <ItemTitle className="line-clamp-1 flex-1">{user.name}</ItemTitle>
-              <Badge className="text-[9px] uppercase">{user.role}</Badge>
+              <Badge
+                className="text-[9px] uppercase"
+                variant={
+                  user.role === USER_ROLES.ADMIN
+                    ? "destructive"
+                    : user.role === USER_ROLES.OPERATOR
+                      ? "default"
+                      : "outline"
+                }
+              >
+                {user.role}
+              </Badge>
             </div>
             <ItemDescription>{user.email}</ItemDescription>
           </ItemContent>
