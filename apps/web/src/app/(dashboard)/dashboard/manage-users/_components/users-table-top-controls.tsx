@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Spinner } from "../../../../../components/ui/spinner";
 import { cn } from "../../../../../lib/utils";
+import UserTableAddUserDialog from "./user-table-add-user-dialog";
 import UserTableColumnsDropdown from "./user-table-columns-dropdown";
 import UserTableFilterDropdown from "./user-table-filter-dropdown";
 
@@ -84,10 +84,7 @@ export default function UsersTableTopControls({
         </InputGroupAddon>
       </InputGroup>
       <ButtonGroup>
-        <Button variant="outline" disabled={isLoading}>
-          <Plus />
-          <span className="hidden md:flex">Add User</span>
-        </Button>
+        <UserTableAddUserDialog isLoading={isLoading} />
         <UserTableColumnsDropdown
           isLoading={isLoading}
           visibleCols={visibleCols}
