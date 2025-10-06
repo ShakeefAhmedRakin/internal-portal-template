@@ -68,6 +68,7 @@ export default function UsersTableContainer({ user }: { user: User }) {
         setBannedFilter={setBannedFilter}
         visibleCols={visibleCols}
         setVisibleCols={setVisibleCols}
+        refetch={refetch}
       />
 
       <UserTable
@@ -78,6 +79,7 @@ export default function UsersTableContainer({ user }: { user: User }) {
         sortBy={sortBy}
         sortOrder={sortOrder}
         toggleSort={toggleSort}
+        refetch={refetch}
       />
 
       <UsersTableBottomControls

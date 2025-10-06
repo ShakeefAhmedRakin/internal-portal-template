@@ -85,8 +85,10 @@ const generatePassword = (length: number = 12): string => {
 
 export default function UserTableAddUserDialog({
   isLoading,
+  refetch,
 }: {
   isLoading: boolean;
+  refetch: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -135,6 +137,7 @@ export default function UserTableAddUserDialog({
         onSuccess: () => {
           toast.success("User created successfully");
           setOpen(false);
+          refetch();
         },
         onError: (error) => {
           console.error("Create user error:", error);

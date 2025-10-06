@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import {
   Tooltip,
@@ -8,9 +7,10 @@ import {
 } from "@/components/ui/tooltip";
 import type { UsersAdminUserType } from "@/hooks/admin/useUsersAdmin";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
-import { MoreVertical } from "lucide-react";
 import { Badge } from "../../../../../components/ui/badge";
 import { cn } from "../../../../../lib/utils";
+import UserTableActionsDialog from "./user-table-actions-dialog";
+import UserTableDeleteDialog from "./user-table-delete-dialog";
 
 const rowHeight = "h-[63.5px]";
 
@@ -18,6 +18,7 @@ export default function UserTableRow({
   user: u,
   currentUserId,
   visibleCols,
+  refetch,
 }: {
   user: UsersAdminUserType;
   currentUserId: string;
@@ -30,6 +31,7 @@ export default function UserTableRow({
     updated: boolean;
     actions: boolean;
   };
+  refetch: () => void;
 }) {
   return (
     <TableRow
@@ -42,7 +44,12 @@ export default function UserTableRow({
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="flex max-w-fit cursor-default items-center gap-1 text-[11px] md:text-xs">
-                  <span className="truncate">{u.name}</span>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="truncate">{u.name}</span>
+                    <span className="text-muted-foreground line-clamp-1 max-w-24 truncate text-[9px]">
+                      {u.id}
+                    </span>
+                  </div>
                   {u.id === currentUserId && (
                     <Badge
                       variant="default"
@@ -54,7 +61,7 @@ export default function UserTableRow({
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{u.name}</p>
+                <p>{u.id}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -144,10 +151,9 @@ export default function UserTableRow({
         </TableCell>
       )}
       {visibleCols.actions && (
-        <TableCell className="flex items-center justify-end">
-          <Button variant="outline" size="icon-sm" className="mt-2">
-            <MoreVertical className="size-4.5" />
-          </Button>
+        <TableCell className="flex items-center justify-end gap-1">
+          <UserTableActionsDialog />
+          <UserTableDeleteDialog user={u} refetch={refetch} />
         </TableCell>
       )}
     </TableRow>

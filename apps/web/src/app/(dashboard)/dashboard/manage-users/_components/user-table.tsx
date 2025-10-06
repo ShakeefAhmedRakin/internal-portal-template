@@ -20,6 +20,7 @@ export default function UserTable({
   sortBy,
   sortOrder,
   toggleSort,
+  refetch,
 }: {
   users: UsersAdminUserType[];
   limit: number;
@@ -36,6 +37,7 @@ export default function UserTable({
   sortBy: "name" | "createdAt" | "updatedAt";
   sortOrder: "asc" | "desc";
   toggleSort: (column: "name" | "createdAt" | "updatedAt") => void;
+  refetch: () => void;
 }) {
   const currentUserId = user.id;
 
@@ -49,7 +51,7 @@ export default function UserTable({
           {visibleCols.status && <col style={{ width: "120px" }} />}
           {visibleCols.created && <col style={{ width: "100px" }} />}
           {visibleCols.updated && <col style={{ width: "100px" }} />}
-          {visibleCols.actions && <col style={{ width: "60px" }} />}
+          {visibleCols.actions && <col style={{ width: "100px" }} />}
         </colgroup>
         <TableHeader className="bg-muted sticky top-0">
           <TableRow>
@@ -128,6 +130,7 @@ export default function UserTable({
               user={u}
               currentUserId={currentUserId}
               visibleCols={visibleCols}
+              refetch={refetch}
             />
           ))}
 

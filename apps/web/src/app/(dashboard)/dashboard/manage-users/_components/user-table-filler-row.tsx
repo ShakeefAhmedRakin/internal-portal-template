@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Trash2 } from "lucide-react";
 import { cn } from "../../../../../lib/utils";
 
 const rowHeight = "h-[63.5px]";
@@ -68,9 +68,12 @@ export default function UserTableFillerRow({
         </TableCell>
       )}
       {visibleCols.actions && (
-        <TableCell className="flex items-center justify-end">
+        <TableCell className="flex items-center justify-end gap-1">
           <Button variant="outline" size="icon-sm" className="mt-2" disabled>
-            <MoreVertical className="size-4.5" />
+            <MoreVertical />
+          </Button>
+          <Button variant="outline" size="icon-sm" className="mt-2" disabled>
+            <Trash2 className="text-destructive" />
           </Button>
         </TableCell>
       )}

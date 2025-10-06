@@ -18,7 +18,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         {children}
         <ReactQueryDevtools buttonPosition="top-right" />
       </QueryClientProvider>
-      <Toaster />
+      <Toaster swipeDirections={["right", "bottom", "left"]} />
     </ThemeProvider>
   );
 }

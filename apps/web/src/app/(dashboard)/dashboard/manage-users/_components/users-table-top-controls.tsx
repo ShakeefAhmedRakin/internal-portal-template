@@ -22,6 +22,7 @@ export default function UsersTableTopControls({
   setBannedFilter,
   visibleCols,
   setVisibleCols,
+  refetch,
 }: {
   isLoading: boolean;
   searchValue: string;
@@ -48,6 +49,7 @@ export default function UsersTableTopControls({
     updated: boolean;
     actions: boolean;
   }) => void;
+  refetch: () => void;
 }) {
   const [localValue, setLocalValue] = useState(searchValue);
   const debounceMs = 300;
@@ -84,7 +86,7 @@ export default function UsersTableTopControls({
         </InputGroupAddon>
       </InputGroup>
       <ButtonGroup>
-        <UserTableAddUserDialog isLoading={isLoading} />
+        <UserTableAddUserDialog isLoading={isLoading} refetch={refetch} />
         <UserTableColumnsDropdown
           isLoading={isLoading}
           visibleCols={visibleCols}
