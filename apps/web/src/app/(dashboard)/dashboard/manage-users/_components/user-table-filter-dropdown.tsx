@@ -62,12 +62,18 @@ export default function UserTableFilterDropdown({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={() => handleRoleFilterChange(USER_ROLES.ADMIN)}
+          onSelect={(e) => {
+            e.preventDefault();
+            handleRoleFilterChange(USER_ROLES.ADMIN);
+          }}
         >
           {renderMenuRow(USER_ROLES.ADMIN, roleFilter === USER_ROLES.ADMIN)}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={() => handleRoleFilterChange(USER_ROLES.OPERATOR)}
+          onSelect={(e) => {
+            e.preventDefault();
+            handleRoleFilterChange(USER_ROLES.OPERATOR);
+          }}
         >
           {renderMenuRow(
             USER_ROLES.OPERATOR,
@@ -75,7 +81,10 @@ export default function UserTableFilterDropdown({
           )}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={() => handleRoleFilterChange(USER_ROLES.VISITOR)}
+          onSelect={(e) => {
+            e.preventDefault();
+            handleRoleFilterChange(USER_ROLES.VISITOR);
+          }}
         >
           {renderMenuRow(USER_ROLES.VISITOR, roleFilter === USER_ROLES.VISITOR)}
         </DropdownMenuItem>
@@ -85,10 +94,20 @@ export default function UserTableFilterDropdown({
           Status
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => handleBannedFilterChange(true)}>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            e.preventDefault();
+            handleBannedFilterChange(true);
+          }}
+        >
           {renderMenuRow("Banned", bannedFilter === true)}
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleBannedFilterChange(false)}>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            e.preventDefault();
+            handleBannedFilterChange(false);
+          }}
+        >
           {renderMenuRow("Active", bannedFilter === false)}
         </DropdownMenuItem>
       </DropdownMenuContent>

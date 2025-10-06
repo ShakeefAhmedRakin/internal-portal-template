@@ -23,7 +23,7 @@ export default function UserTableFillerRow({
   return (
     <TableRow
       key={`empty-${index}`}
-      className={cn("even:bg-muted/50", rowHeight)}
+      className={cn("even:bg-accent dark:even:bg-muted/20", rowHeight)}
     >
       {visibleCols.name && (
         <TableCell>

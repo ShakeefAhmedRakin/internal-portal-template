@@ -32,7 +32,10 @@ export default function UserTableRow({
   };
 }) {
   return (
-    <TableRow key={u.id} className={cn("even:bg-muted/50", rowHeight)}>
+    <TableRow
+      key={u.id}
+      className={cn("even:bg-accent dark:even:bg-muted/20", rowHeight)}
+    >
       {visibleCols.name && (
         <TableCell>
           <TooltipProvider>
@@ -91,19 +94,33 @@ export default function UserTableRow({
       )}
       {visibleCols.status && (
         <TableCell>
-          <Badge
-            variant="outline"
-            className={cn(
-              "text-[8px] font-bold uppercase xl:text-[10px]",
-              u.banned && "text-destructive"
-            )}
-          >
-            {u.banned ? "Banned" : "Active"}
-          </Badge>
+          {u.banned ? (
+            <span className="text-destructive dark:text-destructive/60 text-[9px] whitespace-normal md:text-xs xl:text-[10px]">
+              Banned{" "}
+              {u.banExpires
+                ? "Till " +
+                  new Date(u.banExpires).toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                  })
+                : "Permanently"}
+            </span>
+          ) : (
+            <Badge
+              variant="outline"
+              className={"text-[8px] font-bold uppercase xl:text-[10px]"}
+            >
+              Active
+            </Badge>
+          )}
         </TableCell>
       )}
       {visibleCols.created && (
-        <TableCell className="text-[11px] whitespace-normal md:text-xs">
+        <TableCell className="text-[9px] whitespace-normal md:text-xs xl:text-[10px]">
           {new Date(u.createdAt).toLocaleString("en-US", {
             year: "numeric",
             month: "long",
@@ -115,7 +132,7 @@ export default function UserTableRow({
         </TableCell>
       )}
       {visibleCols.updated && (
-        <TableCell className="text-[11px] whitespace-normal md:text-xs">
+        <TableCell className="text-[9px] whitespace-normal md:text-xs xl:text-[10px]">
           {new Date(u.updatedAt).toLocaleString("en-US", {
             year: "numeric",
             month: "long",

@@ -38,7 +38,7 @@ export default function UserTable({
           {visibleCols.name && <col style={{ width: "200px" }} />}
           {visibleCols.email && <col style={{ width: "200px" }} />}
           {visibleCols.role && <col style={{ width: "80px" }} />}
-          {visibleCols.status && <col style={{ width: "80px" }} />}
+          {visibleCols.status && <col style={{ width: "120px" }} />}
           {visibleCols.created && <col style={{ width: "100px" }} />}
           {visibleCols.updated && <col style={{ width: "100px" }} />}
           {visibleCols.actions && <col style={{ width: "60px" }} />}
