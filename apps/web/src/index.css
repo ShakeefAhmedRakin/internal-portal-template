@@ -12,6 +12,7 @@
 html,
 body {
   @apply bg-background overflow-x-hidden;
+  scrollbar-gutter: stable;
 }
 
 :root {
@@ -176,6 +177,8 @@ body {
     /* Firefox */
     scrollbar-width: thin;
     scrollbar-color: oklch(0.552 0.016 285.938) transparent; /* muted-foreground on transparent */
+    /* Prevent scrollbar from taking up space */
+    scrollbar-gutter: stable;
   }
 
   /* Chromium/WebKit */

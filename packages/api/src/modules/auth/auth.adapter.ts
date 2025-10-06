@@ -27,8 +27,6 @@ export const auth = betterAuth({
       adminRoles: [USER_ROLES.ADMIN],
       // User IDs for admins ( string to check against user.id)
       adminUserIds: ["HmQ1D2my3k1cniZ0ltjGfan92Ntk4KrE"],
-      // Default ban expires in ( milliseconds, default is 1 day )
-      defaultBanExpiresIn: 60 * 60 * 24,
     }),
   ],
 } satisfies BetterAuthOptions);

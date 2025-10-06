@@ -33,7 +33,9 @@ export default function PageLayout({
       <div
         className={cn(
           "h-full max-h-full flex-1",
-          !contained ? "overflow-y-auto" : "overflow-y-hidden",
+          !contained
+            ? "thin-styled-scroll-container overflow-y-auto"
+            : "overflow-y-hidden",
           containerClassName
         )}
       >
