@@ -14,6 +14,32 @@ import UserTableDeleteDialog from "./user-table-delete-dialog";
 
 const rowHeight = "h-[63.5px]";
 
+// Helper function to format ban expiration as countdown
+const formatBanExpiration = (banExpires: Date | string): string => {
+  const now = new Date();
+  const expirationDate = new Date(banExpires);
+  const diff = expirationDate.getTime() - now.getTime();
+
+  if (diff <= 0) return "Expired";
+
+  const totalSeconds = Math.floor(diff / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const totalHours = Math.floor(totalMinutes / 60);
+  const totalDays = Math.floor(totalHours / 24);
+
+  const days = totalDays;
+  const hours = totalHours % 24;
+  const minutes = totalMinutes % 60;
+
+  const parts: string[] = [];
+
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+
+  return parts.length > 0 ? parts.join(" ") : "< 1m";
+};
+
 export default function UserTableRow({
   user: u,
   currentUserId,
@@ -103,18 +129,9 @@ export default function UserTableRow({
         <TableCell>
           {u.banned ? (
             <span className="text-destructive dark:text-destructive/60 text-[9px] whitespace-normal md:text-xs xl:text-[10px]">
-              Banned{" "}
               {u.banExpires
-                ? "Till " +
-                  new Date(u.banExpires).toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                  })
-                : "Permanently"}
+                ? "Ban expires in " + formatBanExpiration(u.banExpires)
+                : "Banned Permanently"}
             </span>
           ) : (
             <Badge
@@ -152,8 +169,16 @@ export default function UserTableRow({
       )}
       {visibleCols.actions && (
         <TableCell className="flex items-center justify-end gap-1">
-          <UserTableActionsDialog />
-          <UserTableDeleteDialog user={u} refetch={refetch} />
+          <UserTableActionsDialog
+            user={u}
+            currentUserId={currentUserId}
+            refetch={refetch}
+          />
+          <UserTableDeleteDialog
+            user={u}
+            refetch={refetch}
+            currentUserId={currentUserId}
+          />
         </TableCell>
       )}
     </TableRow>

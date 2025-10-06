@@ -335,14 +335,22 @@ export default function UserTableAddUserDialog({
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isSubmitting || !isValid || !isDirty}
-            >
-              {isSubmitting && <Spinner />}
-              Create User
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button
+                type="submit"
+                disabled={isSubmitting || !isValid || !isDirty}
+              >
+                {isSubmitting && <Spinner />}
+                Create User
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setOpen(false)}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

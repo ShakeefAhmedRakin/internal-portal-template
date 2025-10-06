@@ -27,13 +27,16 @@ import { USER_ROLES } from "api/src/modules/auth/auth.constants";
 import { AlertCircleIcon, CopyIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Separator } from "../../../../../components/ui/separator";
 
 export default function UserTableDeleteDialog({
   user,
   refetch,
+  currentUserId,
 }: {
   user: UsersAdminUserType;
   refetch: () => void;
+  currentUserId: string;
 }) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,6 +55,10 @@ export default function UserTableDeleteDialog({
   };
 
   const handleDelete = async () => {
+    if (user.id === currentUserId) {
+      toast.error("You cannot delete yourself");
+      return;
+    }
     setIsDeleting(true);
     try {
       const { error } = await authClient.admin.removeUser({
@@ -76,7 +83,12 @@ export default function UserTableDeleteDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon-sm" className="mt-2">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="mt-2"
+          disabled={user.id === currentUserId}
+        >
           <Trash2 className="text-destructive" />
         </Button>
       </DialogTrigger>
@@ -86,6 +98,8 @@ export default function UserTableDeleteDialog({
             <AlertCircleIcon className="text-destructive size-5" /> Delete User
           </DialogTitle>
         </DialogHeader>
+        <Separator />
+
         <DialogDescription>
           This action cannot be undone. This will permanently delete the user.
         </DialogDescription>
