@@ -14,6 +14,8 @@ export const adminRouter = {
         searchValue: z.string().optional(),
         roleFilter: z.string().optional(),
         bannedFilter: z.boolean().optional(),
+        sortBy: z.enum(["name", "createdAt", "updatedAt"]).optional(),
+        sortOrder: z.enum(["asc", "desc"]).optional(),
       })
     )
     .handler(async ({ context, input }) => {
@@ -36,6 +38,8 @@ export const adminRouter = {
         searchValue: input.searchValue ?? "",
         roleFilter: input.roleFilter,
         bannedFilter: input.bannedFilter,
+        sortBy: input.sortBy ?? "createdAt",
+        sortOrder: input.sortOrder ?? "desc",
       });
 
       return { users: data.users, total: data.total };

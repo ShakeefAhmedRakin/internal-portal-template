@@ -28,6 +28,9 @@ export default function UsersTableContainer({ user }: { user: User }) {
     setRoleFilter,
     bannedFilter,
     setBannedFilter,
+    sortBy,
+    sortOrder,
+    toggleSort,
   } = useUsersAdmin(10);
 
   // client-side column visibility state
@@ -60,6 +63,9 @@ export default function UsersTableContainer({ user }: { user: User }) {
         limit={limit}
         user={user}
         visibleCols={visibleCols}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
+        toggleSort={toggleSort}
       />
 
       <UsersTableBottomControls

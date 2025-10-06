@@ -1,4 +1,4 @@
-import { and, count, eq, ilike, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "../../lib/db";
 import { USER_ROLES } from "../auth/auth.constants";
 import { user as userTable } from "../auth/auth.schema";
@@ -9,6 +9,8 @@ export interface ListUsersInput {
   searchValue?: string;
   roleFilter?: string;
   bannedFilter?: boolean;
+  sortBy?: "name" | "createdAt" | "updatedAt";
+  sortOrder?: "asc" | "desc";
 }
 
 class AdminService {
@@ -19,6 +21,8 @@ class AdminService {
       searchValue = "",
       roleFilter,
       bannedFilter,
+      sortBy = "createdAt",
+      sortOrder = "desc",
     } = input;
 
     // Build where conditions
@@ -66,6 +70,16 @@ class AdminService {
       .from(userTable)
       .where(whereClause);
 
+    // Determine sort column and direction
+    const sortColumn =
+      sortBy === "name"
+        ? userTable.name
+        : sortBy === "updatedAt"
+          ? userTable.updatedAt
+          : userTable.createdAt;
+
+    const orderFn = sortOrder === "asc" ? asc : desc;
+
     // Get paginated users
     const users = await db
       .select({
@@ -85,7 +99,7 @@ class AdminService {
       .where(whereClause)
       .limit(limit)
       .offset(offset)
-      .orderBy(userTable.createdAt);
+      .orderBy(orderFn(sortColumn));
 
     return {
       users,

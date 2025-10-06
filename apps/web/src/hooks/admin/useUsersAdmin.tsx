@@ -16,12 +16,16 @@ export default function useUsersAdmin(initialLimit = 10) {
   const [bannedFilter, setBannedFilter] = useState<boolean | undefined>(
     undefined
   );
+  const [sortBy, setSortBy] = useState<"name" | "createdAt" | "updatedAt">(
+    "createdAt"
+  );
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const offset = (currentPage - 1) * limit;
 
   // Reset to page 1 when search or filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchValue, roleFilter, bannedFilter]);
+  }, [searchValue, roleFilter, bannedFilter, sortBy, sortOrder]);
 
   const options = orpc.admin.getUsers.queryOptions({
     input: {
@@ -30,6 +34,8 @@ export default function useUsersAdmin(initialLimit = 10) {
       searchValue,
       roleFilter,
       bannedFilter,
+      sortBy,
+      sortOrder,
     },
   });
 
@@ -44,6 +50,8 @@ export default function useUsersAdmin(initialLimit = 10) {
         searchValue,
         roleFilter,
         bannedFilter,
+        sortBy,
+        sortOrder,
       },
     ],
     enabled: !!limit && offset >= 0,
@@ -78,6 +86,17 @@ export default function useUsersAdmin(initialLimit = 10) {
     setCurrentPage(1);
   };
 
+  const toggleSort = (column: "name" | "createdAt" | "updatedAt") => {
+    if (sortBy === column) {
+      // Toggle order if same column
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      // Set new column with desc as default
+      setSortBy(column);
+      setSortOrder("desc");
+    }
+  };
+
   return {
     ...query,
     // Pagination state
@@ -90,6 +109,9 @@ export default function useUsersAdmin(initialLimit = 10) {
     setRoleFilter,
     bannedFilter,
     setBannedFilter,
+    sortBy,
+    sortOrder,
+    toggleSort,
     total,
     totalPages,
     hasNextPage,

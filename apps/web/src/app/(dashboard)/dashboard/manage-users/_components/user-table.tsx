@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/table";
 import type { UsersAdminUserType } from "@/hooks/admin/useUsersAdmin";
 import type { User } from "better-auth";
+import { SortAsc, SortDesc } from "lucide-react";
+import { Button } from "../../../../../components/ui/button";
 import UserTableFillerRow from "./user-table-filler-row";
 import UserTableRow from "./user-table-row";
 
@@ -15,6 +17,9 @@ export default function UserTable({
   limit,
   user,
   visibleCols,
+  sortBy,
+  sortOrder,
+  toggleSort,
 }: {
   users: UsersAdminUserType[];
   limit: number;
@@ -28,6 +33,9 @@ export default function UserTable({
     updated: boolean;
     actions: boolean;
   };
+  sortBy: "name" | "createdAt" | "updatedAt";
+  sortOrder: "asc" | "desc";
+  toggleSort: (column: "name" | "createdAt" | "updatedAt") => void;
 }) {
   const currentUserId = user.id;
 
@@ -46,7 +54,22 @@ export default function UserTable({
         <TableHeader className="bg-muted sticky top-0">
           <TableRow>
             {visibleCols.name && (
-              <TableHead className="text-xs">Name</TableHead>
+              <TableHead className="text-xs">
+                <div className="flex items-center gap-1">
+                  Name - ID
+                  <Button
+                    variant="secondary"
+                    size="icon-xs"
+                    onClick={() => toggleSort("name")}
+                  >
+                    {sortBy === "name" && sortOrder === "asc" ? (
+                      <SortAsc className="size-3" />
+                    ) : (
+                      <SortDesc className="size-3" />
+                    )}
+                  </Button>
+                </div>
+              </TableHead>
             )}
             {visibleCols.email && (
               <TableHead className="text-xs">Email</TableHead>
@@ -58,10 +81,40 @@ export default function UserTable({
               <TableHead className="text-xs">Status</TableHead>
             )}
             {visibleCols.created && (
-              <TableHead className="text-xs">Created</TableHead>
+              <TableHead className="text-xs">
+                <div className="flex items-center gap-1">
+                  Created
+                  <Button
+                    variant="secondary"
+                    size="icon-xs"
+                    onClick={() => toggleSort("createdAt")}
+                  >
+                    {sortBy === "createdAt" && sortOrder === "asc" ? (
+                      <SortAsc className="size-3" />
+                    ) : (
+                      <SortDesc className="size-3" />
+                    )}
+                  </Button>
+                </div>
+              </TableHead>
             )}
             {visibleCols.updated && (
-              <TableHead className="text-xs">Updated</TableHead>
+              <TableHead className="text-xs">
+                <div className="flex items-center gap-1">
+                  Updated
+                  <Button
+                    variant="secondary"
+                    size="icon-xs"
+                    onClick={() => toggleSort("updatedAt")}
+                  >
+                    {sortBy === "updatedAt" && sortOrder === "asc" ? (
+                      <SortAsc className="size-3" />
+                    ) : (
+                      <SortDesc className="size-3" />
+                    )}
+                  </Button>
+                </div>
+              </TableHead>
             )}
             {visibleCols.actions && (
               <TableHead className="text-right text-xs">Actions</TableHead>
