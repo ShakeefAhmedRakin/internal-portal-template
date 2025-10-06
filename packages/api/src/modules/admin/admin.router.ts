@@ -1,12 +1,9 @@
-import { ORPCError } from "@orpc/client";
 import { z } from "zod";
-import { protectedProcedure } from "../../lib/orpc";
-import { USER_ROLES } from "../auth/auth.constants";
-import { authService } from "../auth/auth.service";
+import { adminProcedure } from "../../lib/orpc";
 import { adminService } from "./admin.service";
 
 export const adminRouter = {
-  getUsers: protectedProcedure
+  getUsers: adminProcedure
     .input(
       z.object({
         limit: z.number().optional(),
@@ -18,20 +15,7 @@ export const adminRouter = {
         sortOrder: z.enum(["asc", "desc"]).optional(),
       })
     )
-    .handler(async ({ context, input }) => {
-      if (!context.session) {
-        throw new ORPCError("UNAUTHORIZED");
-      }
-
-      if (
-        !(await authService.hasMinimumRole(
-          context.session.user.id,
-          USER_ROLES.ADMIN
-        ))
-      ) {
-        throw new ORPCError("UNAUTHORIZED");
-      }
-
+    .handler(async ({ input }) => {
       const data = await adminService.listUsers({
         limit: input.limit ?? 10,
         offset: input.offset ?? 0,
