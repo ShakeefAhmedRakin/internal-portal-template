@@ -24,10 +24,10 @@ export default function UsersTableContainer({ user }: { user: User }) {
     prevPage,
     searchValue,
     setSearchValue,
-    filteredField,
-    setFilteredField,
-    filteredValue,
-    setFilteredValue,
+    roleFilter,
+    setRoleFilter,
+    bannedFilter,
+    setBannedFilter,
   } = useUsersAdmin(10);
 
   // client-side column visibility state
@@ -37,6 +37,7 @@ export default function UsersTableContainer({ user }: { user: User }) {
     role: true,
     status: true,
     created: true,
+    updated: true,
     actions: true,
   });
 
@@ -46,10 +47,10 @@ export default function UsersTableContainer({ user }: { user: User }) {
         isLoading={isLoading}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        filteredField={filteredField}
-        setFilteredField={setFilteredField}
-        filteredValue={filteredValue}
-        setFilteredValue={setFilteredValue}
+        roleFilter={roleFilter}
+        setRoleFilter={setRoleFilter}
+        bannedFilter={bannedFilter}
+        setBannedFilter={setBannedFilter}
         visibleCols={visibleCols}
         setVisibleCols={setVisibleCols}
       />

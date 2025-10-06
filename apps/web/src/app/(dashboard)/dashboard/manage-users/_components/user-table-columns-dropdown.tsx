@@ -22,6 +22,7 @@ export default function UserTableColumnsDropdown({
     role: boolean;
     status: boolean;
     created: boolean;
+    updated: boolean;
     actions: boolean;
   };
   setVisibleCols: (v: {
@@ -30,14 +31,11 @@ export default function UserTableColumnsDropdown({
     role: boolean;
     status: boolean;
     created: boolean;
+    updated: boolean;
     actions: boolean;
   }) => void;
 }) {
-  const protectedKeys: Array<keyof typeof visibleCols> = [
-    "name",
-    "actions",
-    "created",
-  ];
+  const protectedKeys: Array<keyof typeof visibleCols> = ["name", "actions"];
   const toggle = (key: keyof typeof visibleCols) => {
     if (protectedKeys.includes(key)) return; // Name and Actions are always visible
     setVisibleCols({ ...visibleCols, [key]: !visibleCols[key] });
@@ -60,9 +58,11 @@ export default function UserTableColumnsDropdown({
       <div className="flex w-full items-center gap-2">
         <Checkbox
           checked={visibleCols[keyName]}
+          className="size-3"
+          iconClassName="size-2"
           disabled={protectedKeys.includes(keyName)}
         />
-        <span className="capitalize">{label}</span>
+        <span className="text-xs capitalize">{label}</span>
       </div>
     </DropdownMenuItem>
   );
@@ -71,18 +71,22 @@ export default function UserTableColumnsDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" disabled={isLoading}>
-          <Columns className="h-4 w-4" />
+          <Columns />
           <span className="hidden md:flex">Columns</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">
-        <DropdownMenuLabel>Columns</DropdownMenuLabel>
+        <DropdownMenuLabel className="flex items-center gap-2 text-xs">
+          <Columns className="size-3.5" />
+          Columns
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Row keyName="name" label="Name" />
         <Row keyName="email" label="Email" />
         <Row keyName="role" label="Role" />
         <Row keyName="status" label="Status" />
         <Row keyName="created" label="Created" />
+        <Row keyName="updated" label="Updated" />
         <Row keyName="actions" label="Actions" />
       </DropdownMenuContent>
     </DropdownMenu>

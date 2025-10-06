@@ -8,48 +8,42 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
-import { Filter } from "lucide-react";
+import { Filter, ShieldCheck, User } from "lucide-react";
 import { Checkbox } from "../../../../../components/ui/checkbox";
 
 export default function UserTableFilterDropdown({
   isLoading,
-  filteredField,
-  setFilteredField,
-  filteredValue,
-  setFilteredValue,
+  roleFilter,
+  setRoleFilter,
+  bannedFilter,
+  setBannedFilter,
 }: {
   isLoading: boolean;
-  filteredField: "role" | "banned" | undefined;
-  setFilteredField: (value: "role" | "banned" | undefined) => void;
-  filteredValue: string | boolean | undefined;
-  setFilteredValue: (value: string | boolean | undefined) => void;
+  roleFilter: string | undefined;
+  setRoleFilter: (value: string | undefined) => void;
+  bannedFilter: boolean | undefined;
+  setBannedFilter: (value: boolean | undefined) => void;
 }) {
-  const handleFilterChange = (
-    field: "role" | "banned" | undefined,
-    value: string | boolean | undefined
-  ) => {
-    if (field === filteredField && value === filteredValue) {
-      setFilteredField(undefined);
-      setFilteredValue(undefined);
+  const handleRoleFilterChange = (role: string) => {
+    if (roleFilter === role) {
+      setRoleFilter(undefined);
     } else {
-      setFilteredField(field);
-      setFilteredValue(value);
+      setRoleFilter(role);
     }
   };
 
-  const isFilterActive = (
-    field: "role" | "banned" | undefined,
-    value: string | boolean | undefined
-  ) => {
-    return filteredField === field && filteredValue === value;
+  const handleBannedFilterChange = (banned: boolean) => {
+    if (bannedFilter === banned) {
+      setBannedFilter(undefined);
+    } else {
+      setBannedFilter(banned);
+    }
   };
 
-  const renderMenuRow = (field: "role" | "banned", value: string | boolean) => (
+  const renderMenuRow = (label: string, isActive: boolean) => (
     <div className="flex w-full items-center gap-2">
-      <Checkbox checked={isFilterActive(field, value)} />
-      <span className="capitalize">
-        {field === "role" ? value : value ? "Banned" : "Active"}
-      </span>
+      <Checkbox checked={isActive} className="size-3" iconClassName="size-2" />
+      <span className="text-xs capitalize">{label}</span>
     </div>
   );
 
@@ -62,31 +56,40 @@ export default function UserTableFilterDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">
-        <DropdownMenuLabel className="flex items-center gap-2">
-          <Filter className="h-4 w-4" />
-          Filters
+        <DropdownMenuLabel className="flex items-center gap-2 text-xs">
+          <User className="size-3.5" />
+          Role
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={() => handleFilterChange("role", USER_ROLES.ADMIN)}
+          onSelect={() => handleRoleFilterChange(USER_ROLES.ADMIN)}
         >
-          {renderMenuRow("role", USER_ROLES.ADMIN)}
+          {renderMenuRow(USER_ROLES.ADMIN, roleFilter === USER_ROLES.ADMIN)}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={() => handleFilterChange("role", USER_ROLES.OPERATOR)}
+          onSelect={() => handleRoleFilterChange(USER_ROLES.OPERATOR)}
         >
-          {renderMenuRow("role", USER_ROLES.OPERATOR)}
+          {renderMenuRow(
+            USER_ROLES.OPERATOR,
+            roleFilter === USER_ROLES.OPERATOR
+          )}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={() => handleFilterChange("role", USER_ROLES.VISITOR)}
+          onSelect={() => handleRoleFilterChange(USER_ROLES.VISITOR)}
         >
-          {renderMenuRow("role", USER_ROLES.VISITOR)}
+          {renderMenuRow(USER_ROLES.VISITOR, roleFilter === USER_ROLES.VISITOR)}
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleFilterChange("banned", true)}>
-          {renderMenuRow("banned", true)}
+
+        <DropdownMenuLabel className="flex items-center gap-2 text-xs">
+          <ShieldCheck className="size-3.5" />
+          Status
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => handleBannedFilterChange(true)}>
+          {renderMenuRow("Banned", bannedFilter === true)}
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => handleFilterChange("banned", false)}>
-          {renderMenuRow("banned", false)}
+        <DropdownMenuItem onSelect={() => handleBannedFilterChange(false)}>
+          {renderMenuRow("Active", bannedFilter === false)}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

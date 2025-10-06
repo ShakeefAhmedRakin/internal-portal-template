@@ -6,8 +6,11 @@ import { cn } from "@/lib/utils";
 
 function Checkbox({
   className,
+  iconClassName,
   ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+}: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
+  iconClassName?: string;
+}) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
@@ -21,7 +24,7 @@ function Checkbox({
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current transition-none"
       >
-        <CheckIcon className="size-3.5 !text-white" />
+        <CheckIcon className={cn("size-3.5 !text-white", iconClassName)} />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );

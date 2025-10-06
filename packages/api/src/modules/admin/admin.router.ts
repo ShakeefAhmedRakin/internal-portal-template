@@ -1,10 +1,9 @@
 import { ORPCError } from "@orpc/client";
-import { headers } from "next/headers";
 import { z } from "zod";
 import { protectedProcedure } from "../../lib/orpc";
-import { auth } from "../auth/auth.adapter";
 import { USER_ROLES } from "../auth/auth.constants";
 import { authService } from "../auth/auth.service";
+import { adminService } from "./admin.service";
 
 export const adminRouter = {
   getUsers: protectedProcedure
@@ -13,8 +12,8 @@ export const adminRouter = {
         limit: z.number().optional(),
         offset: z.number().optional(),
         searchValue: z.string().optional(),
-        filterField: z.string().optional(),
-        filterValue: z.union([z.string(), z.boolean()]).optional(),
+        roleFilter: z.string().optional(),
+        bannedFilter: z.boolean().optional(),
       })
     )
     .handler(async ({ context, input }) => {
@@ -31,22 +30,12 @@ export const adminRouter = {
         throw new ORPCError("UNAUTHORIZED");
       }
 
-      const data = await auth.api.listUsers({
-        headers: await headers(),
-        query: {
-          limit: input.limit ?? 10,
-          offset: input.offset ?? 0,
-          searchValue: input.searchValue ?? "",
-          searchField: "name",
-          searchOperator: "contains",
-          filterField: input.filterField ?? "",
-          filterOperator: "eq",
-          // Coerce boolean to string for upstream API compatibility
-          filterValue:
-            typeof input.filterValue === "boolean"
-              ? String(input.filterValue)
-              : (input.filterValue ?? ""),
-        },
+      const data = await adminService.listUsers({
+        limit: input.limit ?? 10,
+        offset: input.offset ?? 0,
+        searchValue: input.searchValue ?? "",
+        roleFilter: input.roleFilter,
+        bannedFilter: input.bannedFilter,
       });
 
       return { users: data.users, total: data.total };

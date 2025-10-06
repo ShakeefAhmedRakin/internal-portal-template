@@ -16,26 +16,27 @@ export default function UsersTableTopControls({
   isLoading,
   searchValue,
   setSearchValue,
-  filteredField,
-  setFilteredField,
-  filteredValue,
-  setFilteredValue,
+  roleFilter,
+  setRoleFilter,
+  bannedFilter,
+  setBannedFilter,
   visibleCols,
   setVisibleCols,
 }: {
   isLoading: boolean;
   searchValue: string;
   setSearchValue: (value: string) => void;
-  filteredField: "role" | "banned" | undefined;
-  setFilteredField: (value: "role" | "banned" | undefined) => void;
-  filteredValue: string | boolean | undefined;
-  setFilteredValue: (value: string | boolean | undefined) => void;
+  roleFilter: string | undefined;
+  setRoleFilter: (value: string | undefined) => void;
+  bannedFilter: boolean | undefined;
+  setBannedFilter: (value: boolean | undefined) => void;
   visibleCols: {
     name: boolean;
     email: boolean;
     role: boolean;
     status: boolean;
     created: boolean;
+    updated: boolean;
     actions: boolean;
   };
   setVisibleCols: (v: {
@@ -44,6 +45,7 @@ export default function UsersTableTopControls({
     role: boolean;
     status: boolean;
     created: boolean;
+    updated: boolean;
     actions: boolean;
   }) => void;
 }) {
@@ -68,10 +70,11 @@ export default function UsersTableTopControls({
     <div className="flex items-center justify-between gap-x-2">
       <InputGroup className="w-fit">
         <InputGroupAddon>
-          <Search className="h-4 w-4" />
+          <Search />
         </InputGroupAddon>
         <InputGroupInput
-          placeholder="Search"
+          placeholder="Search by name or email"
+          className="!text-xs"
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
         />
@@ -82,7 +85,7 @@ export default function UsersTableTopControls({
       </InputGroup>
       <ButtonGroup>
         <Button variant="outline" disabled={isLoading}>
-          <Plus className="h-4 w-4" />
+          <Plus />
           <span className="hidden md:flex">Add User</span>
         </Button>
         <UserTableColumnsDropdown
@@ -92,10 +95,10 @@ export default function UsersTableTopControls({
         />
         <UserTableFilterDropdown
           isLoading={isLoading}
-          filteredField={filteredField}
-          setFilteredField={setFilteredField}
-          filteredValue={filteredValue}
-          setFilteredValue={setFilteredValue}
+          roleFilter={roleFilter}
+          setRoleFilter={setRoleFilter}
+          bannedFilter={bannedFilter}
+          setBannedFilter={setBannedFilter}
         />
       </ButtonGroup>
     </div>
