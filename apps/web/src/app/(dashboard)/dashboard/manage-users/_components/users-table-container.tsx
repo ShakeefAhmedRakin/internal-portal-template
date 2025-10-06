@@ -3,6 +3,8 @@
 import useUsersAdmin from "@/hooks/admin/useUsersAdmin";
 import type { User } from "better-auth";
 import { useState } from "react";
+import ErrorCard from "../../../../../components/error-card";
+import UnauthorizedCard from "../../../../../components/unauthorized-card";
 import UserTable from "./user-table";
 import UsersTableBottomControls from "./users-table-bottom-controls";
 import UsersTableTopControls from "./users-table-top-controls";
@@ -10,6 +12,7 @@ import UsersTableTopControls from "./users-table-top-controls";
 export default function UsersTableContainer({ user }: { user: User }) {
   const {
     data,
+    error,
     isLoading,
     // Pagination state
     currentPage,
@@ -31,6 +34,8 @@ export default function UsersTableContainer({ user }: { user: User }) {
     sortBy,
     sortOrder,
     toggleSort,
+    refetch,
+    isRefetching,
   } = useUsersAdmin(10);
 
   // client-side column visibility state
@@ -43,6 +48,13 @@ export default function UsersTableContainer({ user }: { user: User }) {
     updated: true,
     actions: true,
   });
+
+  if (error) {
+    if (error.message === "Forbidden") {
+      return <UnauthorizedCard />;
+    }
+    return <ErrorCard refetch={refetch} isRefetching={isRefetching} />;
+  }
 
   return (
     <div className="flex h-full max-h-full flex-col space-y-4">

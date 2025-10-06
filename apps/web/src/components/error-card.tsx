@@ -10,14 +10,26 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import PageLayout from "./ui/page-layout";
+import { Spinner } from "./ui/spinner";
 import { Heading, Paragraph } from "./ui/typography";
 
-export default function ErrorCard({ refetch }: { refetch?: () => void }) {
+export default function ErrorCard({
+  refetch,
+  isRefetching,
+}: {
+  refetch?: () => void;
+  isRefetching?: boolean;
+}) {
   const router = useRouter();
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-md items-center justify-center p-2">
-      <Card className="w-full">
+    <PageLayout
+      showHeader={false}
+      contained
+      containerClassName="flex items-center justify-center"
+    >
+      <Card className="mx-auto w-full max-w-md">
         <CardHeader className="text-center">
           <div className="bg-destructive/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <AlertCircle className="text-destructive h-8 w-8" />
@@ -28,19 +40,20 @@ export default function ErrorCard({ refetch }: { refetch?: () => void }) {
         </CardHeader>
         <CardContent className="text-center">
           <Paragraph className="text-muted-foreground" size="sm">
-            An error occurred while processing your request. Please try again
-            later.
+            An error occurred while processing your request.
           </Paragraph>
         </CardContent>
         <CardFooter>
           <Button
+            disabled={isRefetching}
             onClick={() => (refetch ? refetch() : router.refresh())}
             className="w-full"
+            variant="outline"
           >
-            Try Again
+            {isRefetching ? <Spinner /> : "Try Again"}
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </PageLayout>
   );
 }

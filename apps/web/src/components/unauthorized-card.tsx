@@ -10,14 +10,19 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import PageLayout from "./ui/page-layout";
 import { Heading, Paragraph } from "./ui/typography";
 
 export default function UnauthorizedCard() {
   const router = useRouter();
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-md items-center justify-center p-2">
-      <Card className="w-full">
+    <PageLayout
+      showHeader={false}
+      contained
+      containerClassName="flex items-center justify-center"
+    >
+      <Card className="mx-auto w-full max-w-md">
         <CardHeader className="text-center">
           <div className="bg-destructive/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <ShieldX className="text-destructive h-8 w-8" />
@@ -33,11 +38,15 @@ export default function UnauthorizedCard() {
           </Paragraph>
         </CardContent>
         <CardFooter>
-          <Button onClick={() => router.back()} className="w-full">
+          <Button
+            onClick={() => router.back()}
+            variant="outline"
+            className="w-full"
+          >
             Go Back
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </PageLayout>
   );
 }

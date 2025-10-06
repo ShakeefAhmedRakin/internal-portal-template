@@ -9,6 +9,7 @@ export default function PageLayout({
   showBreadcrumb = true,
   titleFirst = true,
   contained = false,
+  containerClassName,
 }: {
   children: React.ReactNode;
   showHeader?: boolean;
@@ -17,6 +18,7 @@ export default function PageLayout({
   showBreadcrumb?: boolean;
   titleFirst?: boolean;
   contained?: boolean;
+  containerClassName?: string;
 }) {
   return (
     <div className="lg:bg-background thin-styled-scroll-container flex h-full w-full flex-1 flex-col p-2 xl:rounded-lg xl:border xl:p-4">
@@ -31,7 +33,8 @@ export default function PageLayout({
       <div
         className={cn(
           "h-full max-h-full flex-1",
-          !contained ? "overflow-y-auto" : "overflow-y-hidden"
+          !contained ? "overflow-y-auto" : "overflow-y-hidden",
+          containerClassName
         )}
       >
         {children}
