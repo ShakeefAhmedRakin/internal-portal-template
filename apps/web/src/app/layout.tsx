@@ -5,6 +5,7 @@ import "../index.css";
 
 const interFont = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
