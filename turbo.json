@@ -5,7 +5,14 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "env": [
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "CORS_ORIGIN",
+        "DATABASE_URL",
+        "NEXT_PUBLIC_SERVER_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -30,6 +37,38 @@
       "persistent": true
     },
     "db:generate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:dev:push": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:dev:studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:dev:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:dev:generate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:prod:push": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:prod:studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:prod:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:prod:generate": {
       "cache": false,
       "persistent": true
     },

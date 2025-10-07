@@ -16,7 +16,15 @@
     "db:push": "turbo -F api db:push",
     "db:studio": "turbo -F api db:studio",
     "db:generate": "turbo -F api db:generate",
-    "db:migrate": "turbo -F api db:migrate"
+    "db:migrate": "turbo -F api db:migrate",
+    "db:dev:push": "turbo -F api db:dev:push",
+    "db:dev:studio": "turbo -F api db:dev:studio",
+    "db:dev:generate": "turbo -F api db:dev:generate",
+    "db:dev:migrate": "turbo -F api db:dev:migrate",
+    "db:prod:push": "turbo -F api db:prod:push",
+    "db:prod:studio": "turbo -F api db:prod:studio",
+    "db:prod:generate": "turbo -F api db:prod:generate",
+    "db:prod:migrate": "turbo -F api db:prod:migrate"
   },
   "dependencies": {},
   "devDependencies": {

@@ -27,7 +27,7 @@ A production-ready template for building **admin-controlled internal portals** a
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL database
+- PostgreSQL database (local for dev, [Neon](https://neon.tech) recommended for production)
 - pnpm package manager
 
 ### 1. Clone and Install
@@ -42,29 +42,62 @@ pnpm install
 
 Create environment files:
 
-**`packages/api/.env`**
+**`packages/api/.env.development`**
 
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/your_database"
+```
+
+**`packages/api/.env.production`**
+
+```env
+DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
+```
+
+> **💡 Database Strategy**:
+>
+> - **Development**: Uses `node-postgres` for local PostgreSQL connections
+> - **Production**: Uses Neon's serverless driver for optimal serverless performance
+> - The driver automatically switches based on `NODE_ENV`
+
+**`apps/web/.env.local`** (Development)
+
+```env
 BETTER_AUTH_SECRET="your-secret-key-here"
-BETTER_AUTH_URL="http://localhost:3000"
+BETTER_AUTH_URL="http://localhost:3001"
+NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
 CORS_ORIGIN="http://localhost:3001"
 ```
 
-**`apps/web/.env.local`**
+**`apps/web/.env.production`** (Production)
 
 ```env
-NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
+BETTER_AUTH_SECRET="your-production-secret-key-here"
+BETTER_AUTH_URL="https://your-production-frontend.com"
+NEXT_PUBLIC_SERVER_URL="https://your-production-api.com"
+CORS_ORIGIN="https://your-production-frontend.com"
 ```
 
 ### 3. Database Setup
 
-```bash
-# Push schema to database
-pnpm db:push
+**For Local Development (PostgreSQL):**
 
-# (Optional) Open database studio
-pnpm db:studio
+```bash
+# Push schema to local database
+pnpm db:dev:push
+
+# Open database studio for local database
+pnpm db:dev:studio
+```
+
+**For Production (Neon):**
+
+```bash
+# Push schema to Neon database
+pnpm db:prod:push
+
+# Open database studio for Neon database
+pnpm db:prod:studio
 ```
 
 ### 4. Start Development
@@ -81,6 +114,42 @@ pnpm dev:server # API only
 ### 5. Access the Application
 
 - **Frontend**: [http://localhost:3001](http://localhost:3001)
+
+## 🚀 Deploying to Production with Neon
+
+### Step 1: Create a Neon Database
+
+1. Sign up at [https://neon.tech](https://neon.tech)
+2. Create a new project
+3. Copy your connection string (format: `postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`)
+
+### Step 2: Set Production Environment Variables
+
+**`packages/api/.env.production`**
+
+```env
+DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
+```
+
+**`apps/web/.env.production`**
+
+```env
+BETTER_AUTH_SECRET="your-production-secret"
+BETTER_AUTH_URL="https://your-production-frontend.com"
+NEXT_PUBLIC_SERVER_URL="https://your-production-api.com"
+CORS_ORIGIN="https://your-production-frontend.com"
+```
+
+### Step 3: Push Schema to Neon
+
+```bash
+# Push your database schema to Neon
+pnpm db:prod:push
+```
+
+That's it! Your production database is now hosted on Neon. 🎉
+
+> **Note**: The application automatically uses the Neon serverless driver in production for optimal performance.
 
 ## 🏗️ Architecture
 
@@ -113,17 +182,24 @@ internal-portal-template/
 
 ## 📋 Available Scripts
 
-| Command            | Description                           |
-| ------------------ | ------------------------------------- |
-| `pnpm dev`         | Start all applications in development |
-| `pnpm build`       | Build all applications for production |
-| `pnpm dev:web`     | Start only the frontend application   |
-| `pnpm dev:server`  | Start only the API server             |
-| `pnpm check-types` | Run TypeScript type checking          |
-| `pnpm db:push`     | Push database schema changes          |
-| `pnpm db:studio`   | Open Drizzle Studio (database UI)     |
-| `pnpm db:generate` | Generate database migrations          |
-| `pnpm format`      | Format code with Prettier             |
+| Command                 | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| `pnpm dev`              | Start all applications in development       |
+| `pnpm build`            | Build all applications for production       |
+| `pnpm dev:web`          | Start only the frontend application         |
+| `pnpm dev:server`       | Start only the API server                   |
+| `pnpm check-types`      | Run TypeScript type checking                |
+| **Development DB:**     |                                             |
+| `pnpm db:dev:push`      | Push schema to local PostgreSQL database    |
+| `pnpm db:dev:studio`    | Open Drizzle Studio for local database      |
+| `pnpm db:dev:generate`  | Generate migrations for local database      |
+| `pnpm db:dev:migrate`   | Run migrations on local database            |
+| **Production DB:**      |                                             |
+| `pnpm db:prod:push`     | Push schema to Neon production database     |
+| `pnpm db:prod:studio`   | Open Drizzle Studio for Neon database       |
+| `pnpm db:prod:generate` | Generate migrations for production database |
+| `pnpm db:prod:migrate`  | Run migrations on Neon production database  |
+| `pnpm format`           | Format code with Prettier                   |
 
 ## 🎨 Customization Guide
 
@@ -159,8 +235,10 @@ See `.env.example` files in each package for required environment variables.
 ### **Database**
 
 - Supports PostgreSQL (recommended)
+- Optimized for [Neon](https://neon.tech) serverless PostgreSQL
 - Schema managed with Drizzle ORM
 - Migrations included for user management
+- Environment-specific database URLs (dev/prod)
 
 ### **Authentication**
 

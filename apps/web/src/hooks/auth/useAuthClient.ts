@@ -1,11 +1,11 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   ROLE_HIERARCHY,
   USER_ROLES,
   type UserRole,
 } from "api/src/modules/auth/auth.constants";
-import { authClient } from "../lib/auth-client";
 
 // Client-side auth hook - use in Client Components
 export function useAuth() {
