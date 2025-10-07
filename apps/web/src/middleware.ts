@@ -1,10 +1,4 @@
-import { auth } from "api";
-import {
-  ROLE_HIERARCHY,
-  USER_ROLES,
-  type UserRole,
-} from "api/src/modules/auth/auth.constants";
-import { headers } from "next/headers";
+import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse, type NextRequest } from "next/server";
 import { StaticRoutes } from "./config/static-routes";
 
@@ -20,21 +14,7 @@ const protectedRoutes = [
   StaticRoutes.MANAGE_PROJECTS,
 ];
 
-// Route permissions mapping (minimum role required)
-const routePermissions: Record<string, UserRole> = {
-  [StaticRoutes.MANAGE_USERS]: USER_ROLES.ADMIN,
-  [StaticRoutes.MANAGE_PERMISSIONS]: USER_ROLES.ADMIN,
-  [StaticRoutes.MANAGE_PROJECTS]: USER_ROLES.OPERATOR,
-};
-
-// Helper to check if user has minimum role required
-function hasMinimumRole(userRole: UserRole, requiredRole: UserRole): boolean {
-  const userLevel = ROLE_HIERARCHY[userRole];
-  const requiredLevel = ROLE_HIERARCHY[requiredRole];
-  return userLevel >= requiredLevel;
-}
-
-export default async function authMiddleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
 
   const isAuthRoute = authRoutes.includes(pathName);
@@ -45,13 +25,13 @@ export default async function authMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Get session using auth.api (Next.js 15.2.0+ with Node.js runtime)
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  // Check for session cookie (lightweight check for redirection)
+  // NOTE: This only checks cookie existence, NOT validity
+  // Actual auth validation happens in each page/route via useAuthServer()
+  const sessionCookie = getSessionCookie(request);
 
-  // Not logged in
-  if (!session) {
+  // Not logged in (no session cookie)
+  if (!sessionCookie) {
     if (isAuthRoute) {
       return NextResponse.next(); // Allow access to login page
     }
@@ -63,32 +43,17 @@ export default async function authMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Logged in
+  // Has session cookie - redirect away from auth pages
   if (isAuthRoute) {
     return NextResponse.redirect(new URL(StaticRoutes.DASHBOARD, request.url));
   }
 
-  // Check role-based permissions for protected routes
-  if (isProtectedRoute) {
-    const requiredRole = routePermissions[pathName];
-
-    if (requiredRole) {
-      const userRole = session.user?.role as UserRole;
-
-      if (!userRole || !hasMinimumRole(userRole, requiredRole)) {
-        // User doesn't have sufficient permissions
-        return NextResponse.redirect(
-          new URL(StaticRoutes.DASHBOARD, request.url)
-        );
-      }
-    }
-  }
-
-  return NextResponse.next(); // Allowed access to protected route
+  // For protected routes, allow through
+  // Role-based checks are handled in layout.tsx via useAuthServer()
+  return NextResponse.next();
 }
 
 export const config = {
-  runtime: "nodejs", // Required for Next.js 15.2.0+ to use auth.api in middleware
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
