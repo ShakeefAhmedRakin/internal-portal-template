@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { useAuthServer } from "../../../hooks/auth/useAuthServer";
 import DashboardNavigation from "../_components/dashboard-navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   children,
 }: {
