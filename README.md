@@ -289,6 +289,31 @@ Routes automatically display based on user role. See `apps/web/src/config/` for 
 
 ---
 
+## 📚 Documentation
+
+For detailed guides and troubleshooting, check out the `docs/` folder:
+
+| Guide                                                      | Description                                      |
+| ---------------------------------------------------------- | ------------------------------------------------ |
+| [GitHub Actions Setup](./docs/GITHUB_ACTIONS_SETUP.md)     | **START HERE** - Fix Actions permissions & setup |
+| [Testing New Migrations](./docs/TESTING_NEW_MIGRATIONS.md) | Step-by-step guide to test migration workflow    |
+| [Database Migrations Guide](./docs/DATABASE_MIGRATIONS.md) | Complete migration documentation                 |
+| [Quick Reference](./docs/QUICK_REFERENCE.md)               | Command cheat sheet                              |
+| [Deployment Flow](./docs/DEPLOYMENT_FLOW.md)               | Complete deployment architecture                 |
+
+### 🚨 Common Issues
+
+**GitHub Actions failing with "Actions not allowed" error?**  
+→ See [GitHub Actions Setup Guide](./docs/GITHUB_ACTIONS_SETUP.md)
+
+**New migrations not being applied to production?**  
+→ See [Testing New Migrations](./docs/TESTING_NEW_MIGRATIONS.md)
+
+**Database schema out of sync?**  
+→ See [Database Migrations Guide](./docs/DATABASE_MIGRATIONS.md)
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:

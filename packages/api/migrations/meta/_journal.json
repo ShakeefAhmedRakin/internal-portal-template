@@ -29,6 +29,13 @@
       "when": 1759824675126,
       "tag": "0003_slimy_doctor_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1759825944908,
+      "tag": "0004_mighty_jack_power",
+      "breakpoints": true
     }
   ]
 }
