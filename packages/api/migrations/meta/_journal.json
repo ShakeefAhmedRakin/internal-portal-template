@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1759608128041,
-      "tag": "0000_nostalgic_hellcat",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1759608655915,
-      "tag": "0001_public_maverick",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1759629764942,
-      "tag": "0002_amusing_caretaker",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1759826119370,
-      "tag": "0003_chilly_black_knight",
+      "when": 1759827053306,
+      "tag": "0000_youthful_charles_xavier",
       "breakpoints": true
     }
   ]
