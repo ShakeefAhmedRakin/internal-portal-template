@@ -5,13 +5,13 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
       "env": [
-        "BETTER_AUTH_SECRET",
-        "BETTER_AUTH_URL",
+        "BETTER_AUTH_*",
         "CORS_ORIGIN",
         "DATABASE_URL",
-        "NEXT_PUBLIC_SERVER_URL"
+        "NEXT_PUBLIC_*",
+        "NODE_ENV"
       ]
     },
     "lint": {
