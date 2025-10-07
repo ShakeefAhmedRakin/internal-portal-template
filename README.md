@@ -1,171 +1,35 @@
-# 🏢 Internal Portal Template ( WORK IN PROGRESS )
+# 🏢 Internal Portal Template
 
-A production-ready template for building **admin-controlled internal portals** and **B2B SaaS applications**. Perfect for enterprise tools, internal dashboards, client portals, and admin-managed user systems.
+A production-ready, enterprise-grade template for building **admin-controlled internal portals** and **B2B SaaS applications**. Built with modern TypeScript stack for maximum type safety and developer experience.
 
-> **Built with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack)** - A modern TypeScript stack combining Next.js, oRPC, and more.
+> **🚀 Live Demo**: [https://internal-portal-template-demo.vercel.app/](https://internal-portal-template-demo.vercel.app/)  
+> **🔑 Need admin access?** Email me for test credentials to explore the full admin dashboard.
 
-## 🎯 What This Template Provides
+---
 
-### **Admin-Controlled User Management**
+## 📋 Summary
 
-- ✅ Admin creates and manages user accounts
-- ✅ No public sign-up (admin-controlled access)
-- ✅ User authentication and session management
-- ✅ Role-based access control ready
+**What You Get:**
 
-### **Enterprise-Ready Features**
+- ✅ **Admin-controlled user management** - No public sign-ups, full admin control
+- ✅ **Role-based access control** - Admin, Operator, and Visitor roles with hierarchical permissions
+- ✅ **Modern tech stack** - Next.js 15, TypeScript, Tailwind CSS v4, shadcn/ui
+- ✅ **Type-safe APIs** - Full-stack type safety with oRPC
+- ✅ **Production-ready auth** - Secure authentication with Better Auth
+- ✅ **Responsive design** - Mobile and desktop optimized
+- ✅ **Dark/Light themes** - Built-in theme switching
+- ✅ **Database migrations** - Managed with Drizzle ORM
+- ✅ **Monorepo setup** - Turborepo for optimized builds
+- ✅ **Deploy-ready** - Optimized for Vercel (frontend) + Neon (database)
 
-- 🔐 Secure authentication with Better Auth
-- 🎨 Modern UI with shadcn/ui components
-- 📱 Responsive design (mobile + desktop)
-- 🌙 Dark/Light theme support
-- ⚡ Type-safe APIs with oRPC
-- 🗄️ Database migrations and schema management
+**Perfect For:**
 
-## 🚀 Quick Start
+- 🏢 Internal company dashboards and tools
+- 🤝 Client portals and admin-managed systems
+- 🔧 B2B SaaS applications
+- 📊 Enterprise data management tools
 
-### Prerequisites
-
-- Node.js 18+
-- PostgreSQL database (local for dev, [Neon](https://neon.tech) recommended for production)
-- pnpm package manager
-
-### 1. Clone and Install
-
-```bash
-git clone <your-repo-url>
-cd internal-portal-template
-pnpm install
-```
-
-### 2. Environment Setup
-
-Create environment files:
-
-**`packages/api/.env.development`**
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/your_database"
-```
-
-**`packages/api/.env.production`**
-
-```env
-DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
-```
-
-> **💡 Database Strategy**:
->
-> - **Development**: Uses `node-postgres` for local PostgreSQL connections
-> - **Production**: Uses Neon's serverless driver for optimal serverless performance
-> - The driver automatically switches based on `NODE_ENV`
-
-**`apps/web/.env.local`** (Development)
-
-```env
-BETTER_AUTH_SECRET="your-secret-key-here"
-BETTER_AUTH_URL="http://localhost:3001"
-NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
-CORS_ORIGIN="http://localhost:3001"
-```
-
-**`apps/web/.env.production`** (Production)
-
-```env
-BETTER_AUTH_SECRET="your-production-secret-key-here"
-BETTER_AUTH_URL="https://your-production-frontend.com"
-NEXT_PUBLIC_SERVER_URL="https://your-production-api.com"
-CORS_ORIGIN="https://your-production-frontend.com"
-```
-
-### 3. Database Setup
-
-**For Local Development (PostgreSQL):**
-
-```bash
-# Push schema to local database
-pnpm db:dev:push
-
-# Open database studio for local database
-pnpm db:dev:studio
-```
-
-**For Production (Neon):**
-
-```bash
-# Push schema to Neon database
-pnpm db:prod:push
-
-# Open database studio for Neon database
-pnpm db:prod:studio
-```
-
-### 4. Start Development
-
-```bash
-# Start all services
-pnpm dev
-
-# Or start individually
-pnpm dev:web    # Frontend only
-pnpm dev:server # API only
-```
-
-### 5. Access the Application
-
-- **Frontend**: [http://localhost:3001](http://localhost:3001)
-
-## 🚀 Deploying to Production with Neon
-
-### Step 1: Create a Neon Database
-
-1. Sign up at [https://neon.tech](https://neon.tech)
-2. Create a new project
-3. Copy your connection string (format: `postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`)
-
-### Step 2: Set Production Environment Variables
-
-**`packages/api/.env.production`**
-
-```env
-DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
-```
-
-**`apps/web/.env.production`**
-
-```env
-BETTER_AUTH_SECRET="your-production-secret"
-BETTER_AUTH_URL="https://your-production-frontend.com"
-NEXT_PUBLIC_SERVER_URL="https://your-production-api.com"
-CORS_ORIGIN="https://your-production-frontend.com"
-```
-
-### Step 3: Push Schema to Neon
-
-```bash
-# Push your database schema to Neon
-pnpm db:prod:push
-```
-
-That's it! Your production database is now hosted on Neon. 🎉
-
-> **Note**: The application automatically uses the Neon serverless driver in production for optimal performance.
-
-## 🏗️ Architecture
-
-```
-internal-portal-template/
-├── apps/
-│   └── web/                    # Next.js frontend
-│       ├── src/app/
-│       │   ├── (auth)/         # Authentication pages
-│       │   └── (dashboard)/    # Protected dashboard
-│       └── src/components/     # Reusable UI components
-└── packages/
-    └── api/                    # oRPC backend API
-        ├── src/modules/        # Feature modules
-        └── src/lib/           # Shared utilities
-```
+---
 
 ## 🛠️ Tech Stack
 
@@ -177,96 +41,271 @@ internal-portal-template/
 | **Backend**        | oRPC                 | Type-safe API with OpenAPI      |
 | **Database**       | PostgreSQL + Drizzle | Type-safe database operations   |
 | **Authentication** | Better Auth          | Secure auth with sessions       |
+| **Deployment**     | Vercel + Neon        | Serverless hosting              |
 | **Monorepo**       | Turborepo            | Optimized build system          |
 | **Language**       | TypeScript           | End-to-end type safety          |
 
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js 18+**
+- **pnpm** (package manager)
+- **PostgreSQL** (local for development)
+- **Neon account** (for production database - [sign up free](https://neon.tech))
+
+### 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd internal-portal-template
+pnpm install
+```
+
+### 2. Environment Setup
+
+#### **Frontend Environment** (`apps/web/.env.local`)
+
+Create `apps/web/.env.development` with the following:
+
+```env
+BETTER_AUTH_SECRET="your-secret-key-here-generate-a-random-string"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_SERVER_URL="http://localhost:3000"
+CORS_ORIGIN="http://localhost:3000"
+DATABASE_URL="postgresql://username:password@localhost:5432/your_database"
+```
+
+> **💡 Tip**: Generate a secure secret with: `openssl rand -base64 32`
+
+#### **API Environment** (`packages/api/.env.development`)
+
+Create `packages/api/.env.development` with your local PostgreSQL connection:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/your_database"
+```
+
+Replace `username`, `password`, and `your_database` with your local PostgreSQL credentials.
+
+### 3. Database Setup
+
+Push the database schema to your local PostgreSQL:
+
+```bash
+pnpm db:dev:generate
+pnpm db:dev:push
+```
+
+Optional: Open database studio to view/edit data:
+
+```bash
+pnpm db:dev:studio
+```
+
+### 4. Start Development Server
+
+```bash
+pnpm dev
+```
+
+This starts:
+
+- **Frontend / API**: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🌐 Production Deployment
+
+This template is optimized for deployment on **Vercel** (frontend) and **Neon** (database).
+
+### Step 1: Setup Neon Database
+
+1. **Create a Neon account**: [https://neon.tech](https://neon.tech) (free tier available)
+2. **Create a new project** in your Neon dashboard
+3. **Copy your connection string**:
+   - Format: `postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`
+   - Find it in: Project → Connection Details → Connection string
+
+### Step 2: Configure Production Environment
+
+#### **Frontend Environment** (`apps/web/.env.production`)
+
+Create `apps/web/.env.production`:
+
+```env
+BETTER_AUTH_SECRET="your-production-secret-generate-new-one"
+BETTER_AUTH_URL="https://your-app.vercel.app"
+NEXT_PUBLIC_SERVER_URL="https://your-app.vercel.app"
+CORS_ORIGIN="https://your-app.vercel.app"
+DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
+```
+
+**For Vercel Deployment**, add these same environment variables in your Vercel project settings:
+
+- Go to: Project Settings → Environment Variables
+- Add all the variables above
+
+#### **API Environment** (`packages/api/.env.production`)
+
+Create `packages/api/.env.production`:
+
+```env
+DATABASE_URL="postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
+```
+
+> **💡 Note**: Since frontend and API are deployed together on Vercel, they share the same URL and environment.
+
+### Step 3: Generate and Push Database Schema to Neon
+
+```bash
+pnpm db:prod:generate
+pnpm db:prod:push
+```
+
+### Step 4: Deploy to Vercel
+
+1. **Install Vercel CLI** (if not already installed):
+
+   ```bash
+   pnpm add -g vercel
+   ```
+
+2. **Deploy**:
+
+   ```bash
+   vercel
+   ```
+
+3. **Configure build settings** in Vercel dashboard:
+   - **Framework Preset**: Next.js
+   - **Root Directory**: `apps/web`
+   - **Build Command**: `cd ../.. && pnpm install && pnpm build`
+   - **Install Command**: `pnpm install`
+   - **Output Directory**: `.next` (default)
+
+4. **Add environment variables** in Vercel:
+   - Go to: Project Settings → Environment Variables
+   - Add all variables from `apps/web/.env.production`
+   - Make sure to set them for **Production** environment
+
+That's it! Your app is now live on Vercel with Neon database! 🎉
+
+> **📝 Note**: The Next.js app includes API routes, so everything (frontend + backend) runs on the same Vercel deployment at your custom domain.
+
+---
+
 ## 📋 Available Scripts
 
-| Command                 | Description                                 |
-| ----------------------- | ------------------------------------------- |
-| `pnpm dev`              | Start all applications in development       |
-| `pnpm build`            | Build all applications for production       |
-| `pnpm dev:web`          | Start only the frontend application         |
-| `pnpm dev:server`       | Start only the API server                   |
-| `pnpm check-types`      | Run TypeScript type checking                |
-| **Development DB:**     |                                             |
-| `pnpm db:dev:push`      | Push schema to local PostgreSQL database    |
-| `pnpm db:dev:studio`    | Open Drizzle Studio for local database      |
-| `pnpm db:dev:generate`  | Generate migrations for local database      |
-| `pnpm db:dev:migrate`   | Run migrations on local database            |
-| **Production DB:**      |                                             |
-| `pnpm db:prod:push`     | Push schema to Neon production database     |
-| `pnpm db:prod:studio`   | Open Drizzle Studio for Neon database       |
-| `pnpm db:prod:generate` | Generate migrations for production database |
-| `pnpm db:prod:migrate`  | Run migrations on Neon production database  |
-| `pnpm format`           | Format code with Prettier                   |
+### Development
 
-## 🎨 Customization Guide
+| Command            | Description                  |
+| ------------------ | ---------------------------- |
+| `pnpm dev`         | Start all services           |
+| `pnpm dev:web`     | Start frontend only          |
+| `pnpm dev:server`  | Start API only               |
+| `pnpm build`       | Build for production         |
+| `pnpm check-types` | Run TypeScript type checking |
 
-### **Branding & Theming**
+### Database (Development)
 
-- Update `apps/web/src/components/branding/app-logo.tsx` for your logo
-- Modify colors in `apps/web/src/index.css` CSS variables
-- Update metadata in `apps/web/src/app/layout.tsx`
+| Command                | Description                          |
+| ---------------------- | ------------------------------------ |
+| `pnpm db:dev:push`     | Push schema to local PostgreSQL      |
+| `pnpm db:dev:studio`   | Open Drizzle Studio (local database) |
+| `pnpm db:dev:generate` | Generate migrations (local)          |
+| `pnpm db:dev:migrate`  | Run migrations (local)               |
 
-### **Authentication**
+### Database (Production)
 
-- Configure auth settings in `packages/api/src/modules/auth/`
-- Customize email templates in `packages/api/src/modules/auth/templates/`
-- Add OAuth providers in Better Auth configuration
+| Command                 | Description                         |
+| ----------------------- | ----------------------------------- |
+| `pnpm db:prod:push`     | Push schema to Neon                 |
+| `pnpm db:prod:studio`   | Open Drizzle Studio (Neon database) |
+| `pnpm db:prod:generate` | Generate migrations (production)    |
+| `pnpm db:prod:migrate`  | Run migrations (production)         |
 
-### **Database Schema**
+### Code Quality
 
-- Modify schemas in `packages/api/src/lib/db.ts`
-- Run `pnpm db:generate` after schema changes
-- Apply changes with `pnpm db:push`
+| Command             | Description               |
+| ------------------- | ------------------------- |
+| `pnpm format`       | Format code with Prettier |
+| `pnpm format:check` | Check code formatting     |
 
-### **API Routes**
+---
 
-- Add new endpoints in `packages/api/src/modules/`
-- Update routers in `packages/api/src/modules/routers.ts`
+## 🏗️ Project Structure
 
-## 🔧 Configuration
+```
+internal-portal-template/
+├── apps/
+│   └── web/                           # Next.js frontend application
+│       ├── src/
+│       │   ├── app/
+│       │   │   ├── (auth)/            # Authentication pages (sign-in)
+│       │   │   ├── (dashboard)/       # Protected dashboard pages
+│       │   │   └── api/               # API routes (auth, RPC)
+│       │   ├── components/
+│       │   │   ├── ui/                # shadcn/ui components
+│       │   │   └── branding/          # App logo and branding
+│       │   ├── config/                # Route configurations & permissions
+│       │   ├── hooks/                 # Custom React hooks (auth, admin)
+│       │   ├── lib/                   # Utility libraries
+│       │   └── schemas/               # Zod validation schemas
+│       ├── .env.local                 # Development environment variables
+│       └── package.json
+│
+└── packages/
+    └── api/                           # oRPC backend API
+        ├── src/
+        │   ├── modules/
+        │   │   ├── admin/             # Admin management logic
+        │   │   ├── auth/              # Authentication & authorization
+        │   │   ├── operator/          # Operator-specific features
+        │   │   └── routers.ts         # API route definitions
+        │   └── lib/
+        │       ├── db.ts              # Database schema & connection
+        │       ├── orpc.ts            # oRPC configuration
+        │       └── context.ts         # Request context
+        ├── migrations/                # Database migrations
+        ├── .env.development           # Dev database config
+        ├── .env.production            # Prod database config
+        └── package.json
+```
 
-### **Environment Variables**
+## 🔐 Role-Based Access Control
 
-See `.env.example` files in each package for required environment variables.
+The template includes three built-in roles with hierarchical permissions:
 
-### **Database**
+| Role         | Permissions                                          |
+| ------------ | ---------------------------------------------------- |
+| **Admin**    | Full access: manage users, projects, and permissions |
+| **Operator** | Manage projects, view all data, limited user access  |
+| **Visitor**  | View-only access to dashboard and account settings   |
 
-- Supports PostgreSQL (recommended)
-- Optimized for [Neon](https://neon.tech) serverless PostgreSQL
-- Schema managed with Drizzle ORM
-- Migrations included for user management
-- Environment-specific database URLs (dev/prod)
+Routes automatically display based on user role. See `apps/web/src/config/` for route configuration.
 
-### **Authentication**
-
-- Email/password authentication
-- Session-based auth with Better Auth
-- Ready for OAuth providers (Google, GitHub, etc.)
-
-## 📚 Use Cases
-
-This template is perfect for:
-
-- **🏢 Internal Company Tools** - Employee dashboards, admin panels
-- **🤝 Client Portals** - Customer-facing admin-controlled access
-- **🔧 B2B SaaS Applications** - Multi-tenant admin-managed systems
-- **📊 Enterprise Dashboards** - Data visualization and management tools
-- **👥 Team Management Systems** - User provisioning and access control
+---
 
 ## 🤝 Contributing
 
+Contributions are welcome! Please follow these steps:
+
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
 
 ## 🙏 Acknowledgments
 
@@ -274,7 +313,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 - Icons by [Lucide](https://lucide.dev/)
 - Authentication by [Better Auth](https://www.better-auth.com/)
+- Hosted on [Vercel](https://vercel.com/) + [Neon](https://neon.tech/)
 
 ---
 
-**Ready to build your internal portal?** 🚀 Clone this template and start customizing!
+## 📬 Contact & Support
+
+- **Live Demo**: [https://internal-portal-template-demo.vercel.app/](https://internal-portal-template-demo.vercel.app/)
+- **Need Admin Credentials?** Email me to get test access to the admin dashboard
+- **Issues**: Open an issue on GitHub for bugs or feature requests
+
+---
+
+**Ready to build your internal portal?** 🚀  
+Clone this template and start customizing for your needs!
