@@ -50,10 +50,10 @@ export default function SignInForm() {
         },
         {
           onSuccess: () => {
-            router.refresh(); // Clear Next.js cache to fetch fresh user data
-            router.push(StaticRoutes.DASHBOARD);
             form.reset();
             toast.success("Sign in successful");
+            // Use hard navigation to ensure all caches are cleared and fresh data is loaded
+            window.location.href = StaticRoutes.DASHBOARD;
           },
           onError: (error) => {
             console.error("Sign in error:", error);

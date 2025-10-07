@@ -25,8 +25,8 @@ export default function SignOutButton() {
           fetchOptions: {
             onSuccess: () => {
               toast.success("Signed out!");
-              router.refresh(); // Clear Next.js cache
-              router.push(StaticRoutes.SIGN_IN);
+              // Use hard navigation to ensure all caches are cleared
+              window.location.href = StaticRoutes.SIGN_IN;
             },
             onError: (error) => {
               console.error("Sign out error:", error);
