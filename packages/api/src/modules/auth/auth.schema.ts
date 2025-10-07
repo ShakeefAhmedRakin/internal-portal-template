@@ -16,7 +16,7 @@ export const user = pgTable("user", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
 
-  test: text("test"),
+  test: text("test").default("test"),
 });
 
 export const session = pgTable("session", {

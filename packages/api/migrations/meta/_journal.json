@@ -22,6 +22,13 @@
       "when": 1759629764942,
       "tag": "0002_amusing_caretaker",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1759826119370,
+      "tag": "0003_chilly_black_knight",
+      "breakpoints": true
     }
   ]
 }
