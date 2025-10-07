@@ -15,9 +15,6 @@ export const user = pgTable("user", {
   banExpires: timestamp("ban_expires"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
-
-  test: text("test").default("test"),
-  test2: text("test2").default("test2"),
 });
 
 export const session = pgTable("session", {
