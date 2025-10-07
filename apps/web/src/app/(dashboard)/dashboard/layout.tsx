@@ -1,5 +1,3 @@
-import { StaticRoutes } from "@/config/static-routes";
-import { redirect } from "next/navigation";
 import { useAuthServer } from "../../../hooks/auth/useAuthServer";
 import DashboardNavigation from "../_components/dashboard-navigation";
 
@@ -8,11 +6,9 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Middleware already validates authentication
+  // We only need to fetch user data for the navigation
   const auth = await useAuthServer();
-
-  if (!auth.isAuthenticated) {
-    redirect(StaticRoutes.SIGN_IN);
-  }
 
   return (
     <div className="dark:xl:bg-card/20 xl:bg-card/20 relative h-screen max-h-screen w-screen max-w-screen overflow-hidden pb-[70px] xl:pb-0">

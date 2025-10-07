@@ -1,22 +1,37 @@
 // Server-side auth utilities - use in Server Components and API routes
 
 import { StaticRoutes } from "@/config/static-routes";
-import { auth } from "api";
 import {
   ROLE_HIERARCHY,
   USER_ROLES,
   type UserRole,
 } from "api/src/modules/auth/auth.constants";
 import type { User } from "better-auth";
-import { headers } from "next/headers";
+import { getCookieCache } from "better-auth/cookies";
+import { cookies } from "next/headers";
 import { cache } from "react";
 
 // Cache the session for the request lifecycle to avoid multiple fetches
+// Use getCookieCache for instant cookie-based session lookup (no DB call)
 const getCachedSession = cache(async () => {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    // Create a request-like object for getCookieCache
+    const cookieStore = await cookies();
+    const cookieString = cookieStore
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join("; ");
+
+    // Read directly from cookie cache (instant, no DB call)
+    const session = await getCookieCache({
+      headers: {
+        get: (name: string) => {
+          if (name === "cookie") return cookieString;
+          return null;
+        },
+      },
+    } as any);
+
     return session;
   } catch (error) {
     console.error("Error getting server session:", error);
