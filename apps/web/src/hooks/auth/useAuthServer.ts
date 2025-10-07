@@ -2,13 +2,17 @@
 
 import { StaticRoutes } from "@/config/static-routes";
 import { auth } from "api";
-import { USER_ROLES, type UserRole } from "api/src/modules/auth/auth.constants";
-import { authService } from "api/src/modules/auth/auth.service";
+import {
+  ROLE_HIERARCHY,
+  USER_ROLES,
+  type UserRole,
+} from "api/src/modules/auth/auth.constants";
 import type { User } from "better-auth";
 import { headers } from "next/headers";
+import { cache } from "react";
 
-// Server-side session utilities
-export async function getServerSession() {
+// Cache the session for the request lifecycle to avoid multiple fetches
+const getCachedSession = cache(async () => {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -18,6 +22,11 @@ export async function getServerSession() {
     console.error("Error getting server session:", error);
     return null;
   }
+});
+
+// Server-side session utilities
+export async function getServerSession() {
+  return getCachedSession();
 }
 
 export async function getServerUser(): Promise<User | null> {
@@ -25,30 +34,25 @@ export async function getServerUser(): Promise<User | null> {
   return session?.user || null;
 }
 
-// Server-side role checking utilities
-export async function hasRole(role: UserRole): Promise<boolean> {
-  const user = await getServerUser();
-  if (!user?.id) return false;
+// Get user role directly from cached session (no DB call)
+export async function getUserRole(): Promise<UserRole | null> {
+  const session = await getServerSession();
+  return (session?.user?.role as UserRole) || null;
+}
 
-  try {
-    const userRole = await authService.getUserRole(user.id);
-    return userRole === role;
-  } catch (error) {
-    console.error("Error checking user role:", error);
-    return false;
-  }
+// Server-side role checking utilities (using cached session)
+export async function hasRole(role: UserRole): Promise<boolean> {
+  const userRole = await getUserRole();
+  return userRole === role;
 }
 
 export async function hasMinimumRole(minRole: UserRole): Promise<boolean> {
-  const user = await getServerUser();
-  if (!user?.id) return false;
+  const userRole = await getUserRole();
+  if (!userRole) return false;
 
-  try {
-    return await authService.hasMinimumRole(user.id, minRole);
-  } catch (error) {
-    console.error("Error checking minimum role:", error);
-    return false;
-  }
+  const userRoleLevel = ROLE_HIERARCHY[userRole];
+  const minRoleLevel = ROLE_HIERARCHY[minRole];
+  return userRoleLevel >= minRoleLevel;
 }
 
 export async function isAdmin(): Promise<boolean> {
@@ -63,22 +67,11 @@ export async function isVisitor(): Promise<boolean> {
   return hasRole(USER_ROLES.VISITOR);
 }
 
-export async function getUserRole(): Promise<UserRole | null> {
-  const user = await getServerUser();
-  if (!user?.id) return null;
-
-  try {
-    return await authService.getUserRole(user.id);
-  } catch (error) {
-    console.error("Error getting user role:", error);
-    return null;
-  }
-}
-
-// Main server-side auth hook
+// Main server-side auth hook (cached, no DB calls)
 export async function useAuthServer() {
-  const user = await getServerUser();
-  const userRole = await getUserRole();
+  const session = await getServerSession();
+  const user = session?.user || null;
+  const userRole = (user?.role as UserRole) || null;
 
   return {
     user,

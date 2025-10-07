@@ -1,5 +1,6 @@
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
 import { db } from "../../lib/db";
 import { USER_ROLES } from "./auth.constants";
@@ -34,5 +35,8 @@ export const auth = betterAuth({
       // User IDs for admins ( string to check against user.id)
       adminUserIds: ["HmQ1D2my3k1cniZ0ltjGfan92Ntk4KrE"],
     }),
+    // IMPORTANT: nextCookies() must be the last plugin
+    // Automatically handles cookie setting for server actions
+    nextCookies(),
   ],
 } satisfies BetterAuthOptions);

@@ -14,7 +14,7 @@ export default function Pill({
     <span
       className={cn(
         "border-primary/20 flex flex-nowrap items-center gap-2 rounded-full border py-2 pr-3 pl-2",
-        className,
+        className
       )}
     >
       {badgeContent && (
