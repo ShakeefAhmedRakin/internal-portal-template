@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../lib/db";
-import { ROLE_HIERARCHY, USER_ROLES, UserRole } from "./auth.constants";
+import { ROLE_HIERARCHY, USER_ROLES, type UserRole } from "./auth.constants";
 import { user as userTable } from "./auth.schema";
 
 class AuthService {
