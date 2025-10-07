@@ -18,7 +18,21 @@ const requireAuth = o.middleware(async ({ context, next }) => {
   });
 });
 
-export const protectedProcedure = publicProcedure.use(requireAuth);
+const cleanupExpiredBans = o.middleware(async ({ context, next }) => {
+  // Clean up expired bans on every API call
+  try {
+    await authService.unbanExpiredUsers();
+  } catch (error) {
+    console.error("Error cleaning up expired bans:", error);
+    // Don't block the request if cleanup fails
+  }
+
+  return next();
+});
+
+export const protectedProcedure = publicProcedure
+  .use(requireAuth)
+  .use(cleanupExpiredBans);
 
 // Role-based middlewares
 const requireAdmin = o.middleware(async ({ context, next }) => {
