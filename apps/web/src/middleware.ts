@@ -1,4 +1,9 @@
-import { getSessionCookie } from "better-auth/cookies";
+import {
+  ROLE_HIERARCHY,
+  USER_ROLES,
+  type UserRole,
+} from "api/src/modules/auth/auth.constants";
+import { getCookieCache } from "better-auth/cookies";
 import { NextResponse, type NextRequest } from "next/server";
 import { StaticRoutes } from "./config/static-routes";
 
@@ -14,6 +19,20 @@ const protectedRoutes = [
   StaticRoutes.MANAGE_PROJECTS,
 ];
 
+// Route permissions mapping (minimum role required)
+const routePermissions: Record<string, UserRole> = {
+  [StaticRoutes.MANAGE_USERS]: USER_ROLES.ADMIN,
+  [StaticRoutes.MANAGE_PERMISSIONS]: USER_ROLES.ADMIN,
+  [StaticRoutes.MANAGE_PROJECTS]: USER_ROLES.OPERATOR,
+};
+
+// Helper to check if user has minimum role required
+function hasMinimumRole(userRole: UserRole, requiredRole: UserRole): boolean {
+  const userLevel = ROLE_HIERARCHY[userRole];
+  const requiredLevel = ROLE_HIERARCHY[requiredRole];
+  return userLevel >= requiredLevel;
+}
+
 export default async function middleware(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
 
@@ -25,13 +44,11 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check for session cookie (lightweight check for redirection)
-  // NOTE: This only checks cookie existence, NOT validity
-  // Actual auth validation happens in each page/route via useAuthServer()
-  const sessionCookie = getSessionCookie(request);
+  // Get session from cookie cache (includes user role)
+  const session = await getCookieCache(request);
 
-  // Not logged in (no session cookie)
-  if (!sessionCookie) {
+  // Not logged in (no session)
+  if (!session) {
     if (isAuthRoute) {
       return NextResponse.next(); // Allow access to login page
     }
@@ -43,13 +60,27 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Has session cookie - redirect away from auth pages
+  // Has session - redirect away from auth pages
   if (isAuthRoute) {
     return NextResponse.redirect(new URL(StaticRoutes.DASHBOARD, request.url));
   }
 
-  // For protected routes, allow through
-  // Role-based checks are handled in layout.tsx via useAuthServer()
+  // Check role-based permissions for protected routes
+  if (isProtectedRoute) {
+    const requiredRole = routePermissions[pathName];
+
+    if (requiredRole) {
+      const userRole = session.user?.role as UserRole;
+
+      if (!userRole || !hasMinimumRole(userRole, requiredRole)) {
+        // User doesn't have sufficient permissions - redirect to dashboard
+        return NextResponse.redirect(
+          new URL(StaticRoutes.DASHBOARD, request.url)
+        );
+      }
+    }
+  }
+
   return NextResponse.next();
 }
 
