@@ -16,7 +16,9 @@ export default function ButtonClearAvatar(
   const handleClear = async () => {
     try {
       setIsLoading(true);
-      await authClient.updateUser({ image: "" });
+      await authClient.updateUser({ image: null });
+      // Refetch the session to update the cached user data
+      await authClient.getSession();
       router.refresh();
       toast.success("Avatar cleared");
     } catch (err) {

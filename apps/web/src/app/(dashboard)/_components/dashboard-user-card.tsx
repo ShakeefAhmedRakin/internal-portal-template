@@ -5,7 +5,7 @@ export default function DashboardUserCard({ user }: { user: User | null }) {
   return (
     <div className="flex items-center gap-2">
       <Avatar>
-        <AvatarImage src={user?.image ?? ""} />
+        <AvatarImage src={user?.image ?? undefined} />
         <AvatarFallback>{user?.name[0].toUpperCase()}</AvatarFallback>
       </Avatar>
       <div>

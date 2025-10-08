@@ -19,7 +19,7 @@ export default function AccountsUserCard({
         {/* AVATAR WITH BADGE */}
         <div className="relative">
           <Avatar size="20">
-            <AvatarImage src={user?.image ?? ""} />
+            <AvatarImage src={user?.image || undefined} />
             <AvatarFallback className="text-lg">
               {user.name[0].toUpperCase()}
             </AvatarFallback>

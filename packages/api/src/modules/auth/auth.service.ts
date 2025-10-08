@@ -1,4 +1,5 @@
 import { and, eq, inArray, isNotNull, lt } from "drizzle-orm";
+import { headers } from "next/headers";
 import { db } from "../../lib/db";
 import { auth } from "./auth.adapter";
 import { ROLE_HIERARCHY, USER_ROLES, type UserRole } from "./auth.constants";
@@ -113,6 +114,45 @@ class AuthService {
       );
 
     return result.rowCount || 0;
+  }
+
+  async updateAvatar(userId: string, file: File): Promise<void> {
+    // Step 0: Fetch user
+    const [user] = await db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.id, userId));
+
+    if (!user) throw new Error("User not found");
+
+    const apiKey = process.env.IMG_HIPPO_API_KEY!;
+    if (!apiKey) throw new Error("IMG_HIPPO_API_KEY is not set");
+
+    // Step 2: Upload new avatar
+    const formData = new FormData();
+    formData.append("api_key", apiKey);
+    formData.append("file", file);
+    formData.append("title", `${user.name}-avatar`);
+
+    const uploadResponse = await fetch("https://api.imghippo.com/v1/upload", {
+      method: "POST",
+      body: formData,
+    }).then((res) => res.json());
+
+    if (!uploadResponse?.data?.url) {
+      console.error("Upload response:", uploadResponse);
+      throw new Error("Failed to upload new avatar");
+    }
+
+    const newImageUrl = uploadResponse.data.url;
+
+    // Step 3: Update user record
+    await auth.api.updateUser({
+      headers: await headers(),
+      body: { image: newImageUrl },
+    });
+
+    console.log(`Avatar updated for user ${userId}: ${newImageUrl}`);
   }
 }
 

@@ -6,7 +6,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -25,6 +24,10 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import {
+  Paragraph,
+  paragraphVariants,
+} from "../../../../../components/ui/typography";
 
 const updateNameSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -99,13 +102,19 @@ export default function AccountsNameUpdate({ user }: { user: User }) {
           name="name"
           render={({ field }) => (
             <FormItem className="flex-1">
-              <FormLabel
-                className={cn(
-                  !form.getFieldState("name").isDirty && "!text-foreground"
-                )}
-              >
-                Update Name
-              </FormLabel>
+              <div>
+                <h2
+                  className={paragraphVariants({
+                    size: "sm",
+                    className: "font-semibold",
+                  })}
+                >
+                  Full Name
+                </h2>
+                <Paragraph size="xs" className="text-muted-foreground mt-0.5">
+                  Update your full name
+                </Paragraph>
+              </div>
               <FormControl>
                 <InputGroup>
                   <InputGroupAddon>
@@ -129,18 +138,20 @@ export default function AccountsNameUpdate({ user }: { user: User }) {
           )}
         />
         <div className="flex gap-2">
-          <Button
-            id="save-name-button"
-            type="submit"
-            className="flex-1"
-            disabled={isSubmitting || !isValid || !isDirty}
-            onMouseDown={handleButtonMouseDown}
-            onMouseUp={handleButtonMouseUp}
-            onMouseLeave={handleButtonMouseUp}
-          >
-            {isSubmitting && <Spinner />}
-            Save
-          </Button>
+          {isDirty && (
+            <Button
+              id="save-name-button"
+              type="submit"
+              className="flex-1"
+              disabled={isSubmitting || !isValid || !isDirty}
+              onMouseDown={handleButtonMouseDown}
+              onMouseUp={handleButtonMouseUp}
+              onMouseLeave={handleButtonMouseUp}
+            >
+              {isSubmitting && <Spinner />}
+              Save
+            </Button>
+          )}
           {isDirty && (
             <Button
               id="cancel-name-button"

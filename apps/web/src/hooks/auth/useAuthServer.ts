@@ -89,6 +89,7 @@ export async function useAuthServer() {
   const userRole = (user?.role as UserRole) || null;
 
   return {
+    session: session?.session,
     user,
     userRole,
     isAuthenticated: !!user,
