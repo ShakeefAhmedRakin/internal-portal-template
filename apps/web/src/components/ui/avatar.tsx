@@ -51,6 +51,7 @@ function AvatarImage({
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
+      draggable={false}
       className={cn(
         "aspect-square size-full object-cover object-center",
         className

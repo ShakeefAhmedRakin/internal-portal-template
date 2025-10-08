@@ -105,7 +105,7 @@ function SessionItem({
     >
       <ItemContent className="gap-1.5">
         <div className="flex items-center gap-2">
-          <ItemTitle className="!text-sm font-medium">
+          <ItemTitle className="!text-xs font-medium">
             {browser} on {os}
           </ItemTitle>
           {isCurrentSession && (

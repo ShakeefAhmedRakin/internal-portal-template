@@ -7,6 +7,11 @@ import {
 } from "@/components/ui/tooltip";
 import type { UsersAdminUserType } from "@/hooks/admin/useUsersAdmin";
 import { USER_ROLES } from "api/src/modules/auth/auth.constants";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../../components/ui/avatar";
 import { Badge } from "../../../../../components/ui/badge";
 import { cn } from "../../../../../lib/utils";
 import UserTableActionsDialog from "./user-table-actions-dialog";
@@ -70,8 +75,14 @@ export default function UserTableRow({
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="flex max-w-fit cursor-default items-center gap-1 text-[11px] md:text-xs">
+                  <Avatar>
+                    <AvatarImage src={u.image || undefined} />
+                    <AvatarFallback>{u.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div className="flex flex-col gap-0.5">
-                    <span className="truncate">{u.name}</span>
+                    <span className="block max-w-[9rem] truncate">
+                      {u.name}
+                    </span>
                     <span className="text-muted-foreground line-clamp-1 max-w-24 truncate text-[9px]">
                       {u.id}
                     </span>
@@ -79,7 +90,7 @@ export default function UserTableRow({
                   {u.id === currentUserId && (
                     <Badge
                       variant="default"
-                      className="text-[8px] font-bold uppercase"
+                      className="-mt-3 px-1 py-0 text-[8px] font-bold uppercase"
                     >
                       You
                     </Badge>
